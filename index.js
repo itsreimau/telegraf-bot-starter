@@ -2,6 +2,10 @@ const express = require('express');
 const {
     Telegraf
 } = require('telegraf');
+const {
+    TelegrafCommandHandler
+} = require('telegraf-command-handler-upgraded');
+const path = require('path');
 
 // Inisialisasi bot Telegram
 const bot = new Telegraf(process.env.BOT_TOKEN);
