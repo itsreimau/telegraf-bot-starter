@@ -20,7 +20,7 @@ This starter template provides a foundation for building a Telegram bot using Te
 
 4. Set up the environment in Adaptable.io:
 
-   - In Adaptable.io, navigate to `Settings > Environment`.
+   - In Adaptable.io, navigate to `Settings > Configuration > Runtime Environment`.
    - Add the following environment variables:
      - `BOT_TOKEN`: Your Telegram bot token.
      - `OWNER_USERNAME`: Your username (for reference or additional functionality).
