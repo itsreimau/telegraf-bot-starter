@@ -44,7 +44,7 @@ bot.start((ctx) => ctx.reply('Active!'))
 bot.command(['>', 'x'], async (ctx) => {
     try {
         // Check if the message has content and is sent by the owner
-        if (!ctx.message.text || ctx.message.from.username.toString().includes(process.env.OWNER_USERNAME)) return;
+        // if (!ctx.message.text || ctx.message.from.username.toString().includes(process.env.OWNER_USERNAME)) return;
 
         const code = ctx.message.text.slice(ctx.message.entities[0].length + 1);
 
@@ -62,7 +62,7 @@ bot.command(['>', 'x'], async (ctx) => {
 bot.command('$', async (ctx) => {
     try {
         // Check if the message has content and is sent by the owner
-        if (!ctx.message.text || ctx.message.from.username.toString().includes(process.env.OWNER_USERNAME)) return;
+        // if (!ctx.message.text || ctx.message.from.username.toString().includes(process.env.OWNER_USERNAME)) return;
 
         const command = ctx.message.text.slice(ctx.message.entities[0].length + 1);
 
