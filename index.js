@@ -16,8 +16,9 @@ const bot = new Telegraf(process.env.BOT_TOKEN);
 const app = express();
 const port = Number(process.env.PORT) || 3000;
 
-// Assert and refuse to start bot if token or webhookDomain is not passed
+// Assert and refuse to start bot if env is not passed
 if (!process.env.BOT_TOKEN) throw new Error('"BOT_TOKEN" env var is required!');
+if (!process.env.OWNER_USERNAME) throw new Error('"OWNER_USERNAME" env var is required!');
 if (!process.env.WEBHOOK_DOMAIN) throw new Error('"WEBHOOK_DOMAIN" env var is required!');
 
 // Use middleware to parse incoming JSON requests
@@ -43,7 +44,7 @@ bot.start((ctx) => ctx.reply('Active!'))
 bot.command(['>', 'x'], async (ctx) => {
     try {
         // Check if the message has content and is sent by the owner
-        if (!ctx.message.text || ctx.message.from.username.toString().includes(process.env.OWNER)) return;
+        if (!ctx.message.text || ctx.message.from.username.toString().includes(process.env.OWNER_USERNAME)) return;
 
         const code = ctx.message.text.slice(ctx.message.entities[0].length + 1);
 
