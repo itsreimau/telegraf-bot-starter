@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "Telegram bot with telegraf and express.",
   "main": "index.js",
-  "type": "module",
   "scripts": {
     "start": "node index.js"
   },
