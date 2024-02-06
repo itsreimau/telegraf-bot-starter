@@ -30,7 +30,7 @@ app.use(express.json());
 app.use(
     await bot.createWebhook({
         domain: process.env.WEBHOOK_DOMAIN,
-    })
+    });
 );
 
 // Error handling middleware
@@ -41,7 +41,7 @@ app.use((err, req, res, next) => {
 
 // Handle command
 const __dirname = path.dirname(new URL(import.meta.url).pathname);
-const commandFiles = fs.readdirSync(path.join(__dirname, 'commands'));
+const commandFiles = fs.readdir(path.join(__dirname, 'commands'));
 commandFiles.forEach((file) => {
     const commandModule = import(`./commands/${file}`);
     commandModule.then((module) => {
@@ -50,7 +50,7 @@ commandFiles.forEach((file) => {
 });
 
 // Handle messages
-bot.start((ctx) => ctx.reply('Active!'))
+bot.start((ctx) => ctx.reply('Active!'));
 
 // Handle eval code starting with '> ' or 'x '
 bot.hears(/^([x>])\s+(.+)/, async (ctx) => {
