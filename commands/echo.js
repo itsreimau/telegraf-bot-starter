@@ -1,7 +1,12 @@
-module.exports = {
+export default {
     name: 'echo',
-    aliases: ['say'],
-    async execute(ctx, args) {
-        ctx.reply(args.join(' '))
-    }
-}
+    async execute: (ctx) => {
+        const args = ctx.message.text.split(' ').slice(1).join(' ');
+
+        if (args) {
+            ctx.reply(args);
+        } else {
+            ctx.reply('Give an argument!');
+        }
+    },
+};
