@@ -2,6 +2,12 @@ import express from "express";
 import {
     Telegraf
 } from "telegraf";
+import {
+    exec
+} from 'child_process';
+import {
+    inspect
+} from 'util';
 
 // Initialize bot
 const bot = new Telegraf(process.env.BOT_TOKEN);
