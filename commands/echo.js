@@ -1,6 +1,6 @@
 export default {
     name: 'echo',
-    async execute: (ctx) => {
+    async execute(ctx) {
         const args = ctx.message.text.split(' ').slice(1).join(' ');
 
         if (args) {
