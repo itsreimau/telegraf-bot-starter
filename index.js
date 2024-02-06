@@ -1,17 +1,28 @@
-import express from "express";
-import {
+const express = require('express');
+const {
     Telegraf
-} from "telegraf";
+} = require('telegraf');
 
+// Inisialisasi bot Telegram
 const bot = new Telegraf(process.env.BOT_TOKEN);
-const app = express();
-const port = process.env.PORT || 3000;
 
-// Set the bot API endpoint
+// Inisialisasi aplikasi Express
+const app = express();
+const port = process.env.PORT || 3000; // Port untuk server, dapat diatur melalui environment variable atau default ke 3000
+
+// Mengatur endpoint API bot
 app.use(await bot.createWebhook({
     domain: process.env.WEBHOOK_DOMAIN
 }));
 
-bot.on("text", ctx => ctx.reply("Hello"));
+// Menangani perintah
+const CommandHandler = new TelegrafCommandHandler({
+    path: path.resolve() + "/commands",
+});
+bot.use(CommandHandler.load());
 
-app.listen(port, () => console.log("Listening on port", port));
+// Menangani pesan teks dari pengguna
+bot.on('text', (ctx) => ctx.reply('Apa?'));
+
+// Menjalankan server Express pada port yang telah ditentukan
+app.listen(port, () => console.log('Listening on port', port));
