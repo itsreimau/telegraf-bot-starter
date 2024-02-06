@@ -34,7 +34,16 @@ app.use(
 // Error handling middleware
 app.use((err, req, res, next) => {
     console.error(err.stack);
-    res.status(500).send("Something went wrong!");
+    res.status(500).send('Something went wrong!');
+});
+
+// Handle command
+const commandFiles = fs.readdirSync(path.join(__dirname, 'commands'));
+commandFiles.forEach((file) => {
+    const commandModule = import(`./commands/${file}`);
+    commandModule.then((module) => {
+        bot.command(module.default.name, module.default.execute);
+    });
 });
 
 // Handle messages
