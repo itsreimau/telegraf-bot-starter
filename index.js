@@ -40,6 +40,7 @@ app.use((err, req, res, next) => {
 });
 
 // Handle command
+const __dirname = path.dirname(new URL(import.meta.url).pathname);
 const commandFiles = fs.readdirSync(path.join(__dirname, 'commands'));
 commandFiles.forEach((file) => {
     const commandModule = import(`./commands/${file}`);
