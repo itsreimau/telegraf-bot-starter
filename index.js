@@ -29,8 +29,8 @@ app.use(express.json());
 // Set the bot API endpoint
 app.use(
     await bot.createWebhook({
-        domain: process.env.WEBHOOK_DOMAIN,
-    });
+        domain: process.env.WEBHOOK_DOMAIN
+    })
 );
 
 // Error handling middleware
