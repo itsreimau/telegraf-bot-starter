@@ -41,13 +41,14 @@ app.use((err, req, res, next) => {
 
 // Handle command
 const __dirname = path.dirname(new URL(import.meta.url).pathname);
-const commandFiles = fs.readdir(path.join(__dirname, 'commands'));
-commandFiles.forEach((file) => {
-    const commandModule = import(`./commands/${file}`);
-    commandModule.then((module) => {
-        bot.command(module.default.name, module.default.execute);
-    });
-});
+fs.readdir(path.join(__dirname, 'commands'))
+    .then((commandFiles) => {
+        commandFiles.forEach(async (file) => {
+            const commandModule = await import(`./commands/${file}`);
+            bot.command(commandModule.default.name, commandModule.default.execute);
+        });
+    }).catch((error) => console.error(error));
+
 
 // Handle messages
 bot.start((ctx) => ctx.reply('Active!'));
