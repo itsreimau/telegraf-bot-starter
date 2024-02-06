@@ -1,7 +1,7 @@
-import express from "express";
+import express from 'express';
 import {
     Telegraf
-} from "telegraf";
+} from 'telegraf';
 import {
     exec
 } from 'child_process';
@@ -53,7 +53,7 @@ bot.command(['>', 'x'], async (ctx) => {
         await ctx.reply(inspect(result));
         return await ctx.reply('Success!');
     } catch (error) {
-        console.error("Error:", error);
+        console.error('Error:', error);
         await ctx.reply(`[ ! ] Error occurred: ${error.message}`);
     }
 });
@@ -82,7 +82,7 @@ bot.command('$', async (ctx) => {
         await ctx.reply(output);
         return await ctx.reply('Success!');
     } catch (error) {
-        console.error("Error:", error);
+        console.error('Error:', error);
         await ctx.reply(`[ ! ] Error occurred: ${error.message}`);
     }
 });
