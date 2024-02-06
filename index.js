@@ -43,7 +43,7 @@ bot.start((ctx) => ctx.reply('Active!'))
 // Handle eval code starting with '> ' or 'x '
 bot.hears(/^([x>])\s+(.+)/, async (ctx) => {
     try {
-        // if (!ctx.message.from.username.toString().includes(process.env.OWNER_USERNAME)) return;
+        if (!ctx.message.from.username.toString().includes(process.env.OWNER_USERNAME)) return;
 
         const code = ctx.match[2];
 
@@ -60,7 +60,7 @@ bot.hears(/^([x>])\s+(.+)/, async (ctx) => {
 // Handle shell command starting with '$ '
 bot.hears(/^\$\s+(.+)/, async (ctx) => {
     try {
-        // if (!ctx.message.from.username.toString().includes(process.env.OWNER_USERNAME)) return;
+        if (!ctx.message.from.username.toString().includes(process.env.OWNER_USERNAME)) return;
 
         const command = ctx.match[1];
 
