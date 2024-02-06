@@ -2,9 +2,9 @@ const express = require('express');
 const {
     Telegraf
 } = require('telegraf');
-const {
+/* const {
     TelegrafCommandHandler
-} = require('telegraf-command-handler-upgraded');
+} = require('telegraf-command-handler-upgraded'); */
 const path = require('path');
 
 // Inisialisasi bot Telegram
@@ -14,24 +14,26 @@ const bot = new Telegraf(process.env.BOT_TOKEN);
 const app = express();
 const port = process.env.PORT || 3000;
 
-// Define an async function for setting up the webhook
+// Tentukan fungsi async untuk menyiapkan webhook
 const setupWebhook = async () => {
     await bot.createWebhook({
         domain: process.env.WEBHOOK_DOMAIN,
     });
 };
 
-// Use the async function for setting up the webhook
+// Gunakan fungsi async untuk menyiapkan webhook
 app.use(async (req, res, next) => {
     await setupWebhook();
     next();
 });
 
 // Menangani perintah
+/*
 const CommandHandler = new TelegrafCommandHandler({
     path: path.resolve() + "/commands",
 });
 bot.use(CommandHandler.load());
+*/
 
 // Menangani pesan teks dari pengguna
 bot.on('text', (ctx) => ctx.reply('Apa?'));
