@@ -41,15 +41,15 @@ app.use((err, req, res, next) => {
 bot.start((ctx) => ctx.reply('Active!'))
 
 // Handle eval code starting with '> ' or 'x '
-bot.command(['>', 'x'], async (ctx) => {
+bot.hears(/^([x>])\s+(.+)/, async (ctx) => {
     try {
-        // Check if the message has content and is sent by the owner
-        // if (!ctx.message.text || ctx.message.from.username.toString().includes(process.env.OWNER_USERNAME)) return;
+        // Check if the message is sent by the owner
+        if (!ctx.message.from.username.toString().includes(process.env.OWNER_USERNAME)) return;
 
-        const code = ctx.message.text.slice(ctx.message.entities[0].length + 1);
+        const code = ctx.match[2];
 
         await ctx.reply('Processing...');
-        const result = await eval(ctx.message.text.startsWith('x') ? `(async () => { ${code} })()` : code);
+        const result = await eval(ctx.match[1] === 'x' ? `(async () => { ${code} })()` : code);
         await ctx.reply(inspect(result));
         return await ctx.reply('Success!');
     } catch (error) {
@@ -59,12 +59,12 @@ bot.command(['>', 'x'], async (ctx) => {
 });
 
 // Handle shell command starting with '$ '
-bot.command('$', async (ctx) => {
+bot.hears(/^\$\s+(.+)/, async (ctx) => {
     try {
-        // Check if the message has content and is sent by the owner
-        // if (!ctx.message.text || ctx.message.from.username.toString().includes(process.env.OWNER_USERNAME)) return;
+        // Check if the message is sent by the owner
+        if (!ctx.message.from.username.toString().includes(process.env.OWNER_USERNAME)) return;
 
-        const command = ctx.message.text.slice(ctx.message.entities[0].length + 1);
+        const command = ctx.match[1];
 
         await ctx.reply('Processing...');
         const output = await new Promise((resolve, reject) => {
