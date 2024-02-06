@@ -8,12 +8,20 @@ const bot = new Telegraf(process.env.BOT_TOKEN);
 
 // Inisialisasi aplikasi Express
 const app = express();
-const port = process.env.PORT || 3000; // Port untuk server, dapat diatur melalui environment variable atau default ke 3000
+const port = process.env.PORT || 3000;
 
-// Mengatur endpoint API bot
-app.use(await bot.createWebhook({
-    domain: process.env.WEBHOOK_DOMAIN
-}));
+// Define an async function for setting up the webhook
+const setupWebhook = async () => {
+    await bot.createWebhook({
+        domain: process.env.WEBHOOK_DOMAIN,
+    });
+};
+
+// Use the async function for setting up the webhook
+app.use(async (req, res, next) => {
+    await setupWebhook();
+    next();
+});
 
 // Menangani perintah
 const CommandHandler = new TelegrafCommandHandler({
