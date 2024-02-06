@@ -1,7 +1,7 @@
 {
-  "name": "yamikokoro-bot",
+  "name": "simple-telegram-bot",
   "version": "1.0.0",
-  "description": "Telegram bot with telegraf and express.",
+  "description": "Simple Telegram Bot with telegraf and express.",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
