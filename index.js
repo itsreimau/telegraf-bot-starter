@@ -48,9 +48,6 @@ fs.readdir(path.join(__dirname, 'commands'))
     })
     .catch((error) => console.error(error));
 
-// Handle messages
-bot.start((ctx) => ctx.reply('Active!'));
-
 // Handle eval code starting with '> ' or 'x '
 bot.hears(/^([x>])\s+(.+)/, async (ctx) => {
     try {
