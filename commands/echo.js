@@ -8,5 +8,5 @@ export default {
         } else {
             ctx.reply('Give an argument!');
         }
-    },
+    }
 };
