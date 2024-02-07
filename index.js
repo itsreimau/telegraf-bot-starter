@@ -27,11 +27,9 @@ if (!process.env.WEBHOOK_DOMAIN) throw new Error('"WEBHOOK_DOMAIN" env var is re
 app.use(express.json());
 
 // Set the bot API endpoint
-app.use(
-    await bot.createWebhook({
-        domain: process.env.WEBHOOK_DOMAIN
-    })
-);
+app.use(await bot.createWebhook({
+    domain: process.env.WEBHOOK_DOMAIN
+}));
 
 // Error handling middleware
 app.use((err, req, res, next) => {
@@ -47,8 +45,8 @@ fs.readdir(path.join(__dirname, 'commands'))
             const commandModule = await import(`./commands/${file}`);
             bot.command(commandModule.default.name, commandModule.default.execute);
         });
-    }).catch((error) => console.error(error));
-
+    })
+    .catch((error) => console.error(error));
 
 // Handle messages
 bot.start((ctx) => ctx.reply('Active!'));
