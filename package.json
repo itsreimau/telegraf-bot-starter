@@ -1,7 +1,7 @@
 {
-  "name": "simple-telegram-bot",
+  "name": "telegraf-express-bot-starter",
   "version": "1.0.0",
-  "description": "Simple Telegram Bot with telegraf and express.",
+  "description": "Adaptable.io starter for Telegram bot based on Telegraf and Express.",
   "main": "index.js",
   "type": "module",
   "scripts": {
@@ -9,7 +9,9 @@
   },
   "author": "Muhamad Ikbal Maulana | ItsReimau",
   "dependencies": {
+    "api-dylux": "^1.7.2",
     "express": "^4.17.1",
+    "lowline.ai": "^1.0.18",
     "telegraf": "^4.8.3"
   }
 }
