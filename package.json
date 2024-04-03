@@ -9,7 +9,6 @@
   },
   "author": "Muhamad Ikbal Maulana | ItsReimau",
   "dependencies": {
-    "api-dylux": "^1.7.2",
     "express": "^4.17.1",
     "lowline.ai": "^1.0.18",
     "telegraf": "^4.8.3"
