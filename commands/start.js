@@ -1,6 +1,6 @@
 export default {
-    name: 'start',
+    name: "start",
     async execute(ctx) {
-        ctx.reply('Start what?');
+        return ctx.reply("Start what?");
     }
 };
