@@ -1,5 +1,6 @@
 export default {
     name: "start",
+    aliases: [],
     category: "main",
     description: "Starting bot",
     async execute(bot, ctx, input, param) {
