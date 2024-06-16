@@ -48,6 +48,9 @@ app.use((err, req, res, next) => {
 
 // Initialize command config
 const commandConfig = {};
+bot.config = {
+    cmd: commandConfig
+};
 
 // Load commands dynamically from the "commands" directory
 const __dirname = path.dirname(new URL(import.meta.url).pathname);
@@ -65,9 +68,6 @@ fs.readdir(path.join(__dirname, "commands")).then((commandFiles) => {
         const commandHandler = async (ctx) => {
             const input = ctx.message.text.split(" ").slice(1).join(" ");
             const param = ctx.message.text.split(" ").slice(1);
-            ctx.config = {
-                cmd: commandConfig
-            };
 
             // Check permissions
             if (permissions.includes("group") && ctx.chat.type === "private") {
@@ -110,12 +110,12 @@ fs.readdir(path.join(__dirname, "commands")).then((commandFiles) => {
 }).catch((error) => console.error("Failed to load commands:", error));
 
 // Handle eval code
-bot.hears(/^([x>])\s+(.+)/, async (ctx) => {
+bot.hears(/^([>|>>])\s+(.+)/, async (ctx) => {
     if (parseInt(ctx.message.from.id) !== parseInt(DEVELOPER_ID)) return;
 
     try {
         const code = ctx.match[2];
-        const result = await eval(ctx.match[1] === "x" ? `(async () => { ${code} })()` : code);
+        const result = await eval(ctx.match[1] === ">>" ? `(async () => { ${code} })()` : code);
 
         return ctx.reply(inspect(result));
     } catch (error) {
