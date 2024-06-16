@@ -1,6 +1,8 @@
 export default {
     name: "echo",
     aliases: ["say"],
+    category: "tools",
+    description: "Repeat message",
     async execute(bot, ctx, input, param) {
         if (!input) return ctx.reply("Give an argument!");
 

@@ -1,7 +1,7 @@
 export default {
     name: "help",
-    aliases: ["menu", "?"],
     category: "main",
+    description: "Shows help",
     async execute(bot, ctx, input, param) {
         try {
             const {
@@ -9,28 +9,29 @@ export default {
             } = bot.config;
             const tags = {
                 "ai": "AI",
+                "tools": "Tools",
                 "info": "Info",
-                "general": "General"
+                "": "No Category"
             };
 
             if (!cmd || Object.keys(cmd).length === 0) {
                 return ctx.replyWithMarkdown("**[ ! ]** Error: No commands found.");
             }
 
-            let text = "> COMMAND LIST\n\n";
+            let text = `==== telegraf-express-bot-starter ====\n\nHello, ${ctx.from.first_name}!\n`;
 
             for (const category in tags) {
                 const commands = Object.values(cmd).filter(command => command.category === category);
                 if (commands.length > 0) {
-                    text += `[${tags[category]}]----\n`;
+                    text += `--[ ${tags[category]} ]--\n`;
                     commands.forEach(command => {
                         text += `/${command.name} - ${command.description || "No description"}\n`;
-                        text += "------------\n";
+                        text += "\n";
                     });
                 }
             }
 
-            text += "\n_Created by: @itsreimau_";
+            text += "\n- Created by: ItsReimau -";
 
             return ctx.replyWithMarkdown(text);
         } catch (error) {
