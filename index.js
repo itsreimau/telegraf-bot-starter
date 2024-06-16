@@ -1,29 +1,28 @@
-import express from "express";
 import {
     Telegraf
 } from "telegraf";
+import express from "express";
 import fs from "fs/promises";
 import path from "path";
 import {
-    exec
-} from "child_process";
-import {
     inspect
 } from "util";
-import dotenv from "dotenv";
-
-dotenv.config();
+import {
+    exec
+} from "child_process";
 
 // Validate environment variables
+const requiredEnvVars = ["BOT_TOKEN", "DEVELOPER_ID", "WEBHOOK_DOMAIN"];
+requiredEnvVars.forEach((envVar) => {
+    if (!process.env[envVar]) throw new Error(`'${envVar}' env var is required!`);
+});
+
 const {
     BOT_TOKEN,
-    OWNER_ID,
+    DEVELOPER_ID,
     WEBHOOK_DOMAIN,
     PORT = 3000
 } = process.env;
-if (!BOT_TOKEN || !OWNER_ID || !WEBHOOK_DOMAIN) {
-    throw new Error("Required environment variables are not provided!");
-}
 
 // Initialize bot
 const bot = new Telegraf(BOT_TOKEN);
@@ -80,7 +79,7 @@ fs.readdir(path.join(__dirname, "commands")).then((commandFiles) => {
             }
 
             // Check user permissions
-            if (permissions.includes("developer") && parseInt(ctx.message.from.id) !== parseInt(OWNER_ID)) {
+            if (permissions.includes("developer") && parseInt(ctx.message.from.id) !== parseInt(DEVELOPER_ID)) {
                 return ctx.reply("You do not have permission to use this command.");
             }
 
@@ -88,7 +87,7 @@ fs.readdir(path.join(__dirname, "commands")).then((commandFiles) => {
                 await execute(bot, ctx, input, param);
             } catch (error) {
                 console.error("Error:", error);
-                await ctx.telegram.sendMessage(parseInt(OWNER_ID), `Error: ${error.message}`);
+                await ctx.telegram.sendMessage(parseInt(DEVELOPER_ID), `Error: ${error.message}`);
                 return ctx.reply(`Error: ${error.message}`);
             }
         };
@@ -112,7 +111,7 @@ fs.readdir(path.join(__dirname, "commands")).then((commandFiles) => {
 
 // Handle eval code
 bot.hears(/^([x>])\s+(.+)/, async (ctx) => {
-    if (parseInt(ctx.message.from.id) !== parseInt(OWNER_ID)) return;
+    if (parseInt(ctx.message.from.id) !== parseInt(DEVELOPER_ID)) return;
 
     try {
         const code = ctx.match[2];
@@ -127,7 +126,7 @@ bot.hears(/^([x>])\s+(.+)/, async (ctx) => {
 
 // Handle shell command
 bot.hears(/^\$\s+(.+)/, async (ctx) => {
-    if (parseInt(ctx.message.from.id) !== parseInt(OWNER_ID)) return;
+    if (parseInt(ctx.message.from.id) !== parseInt(DEVELOPER_ID)) return;
 
     try {
         const command = ctx.match[1];

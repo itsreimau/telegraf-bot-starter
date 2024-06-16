@@ -23,7 +23,7 @@ This starter template provides a foundation for building a Telegram bot using Te
    - In Adaptable.io, navigate to `Settings > Configuration > Runtime Environment`.
    - Add the following environment variables:
      - `BOT_TOKEN`: Your Telegram bot token.
-     - `OWNER_ID`: Your ID (for reference or additional functionality).
+     - `DEVELOPER_ID`: Your ID (for reference or additional functionality).
      - `PORT` (Optional, default: 3000): The port on which the bot server will run.
      - `WEBHOOK_URL`: Set this to 'https://your-project-name.adaptable.app/' if your project doesn't use a custom domain.
 
