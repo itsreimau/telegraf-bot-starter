@@ -1,9 +1,10 @@
 export default {
     name: "start",
     aliases: [],
-    category: "main",
     description: "Starting bot",
-    async execute(bot, ctx, input, param) {
+    category: "main",
+    permissions: [],
+    async execute(bot, ctx) {
         return ctx.reply("WELCOME! Use /help to see available commands.");
     }
 };

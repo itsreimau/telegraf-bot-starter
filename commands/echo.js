@@ -1,16 +1,20 @@
 export default {
     name: "echo",
     aliases: ["say"],
-    category: "tools",
     description: "Repeat message",
-    async execute(bot, ctx, input, param) {
-        if (!input) return ctx.reply("Give an argument!");
+    category: "tools",
+    permissions: [],
+    async execute(bot, ctx, input) {
+        const {
+            text
+        } = input;
+        if (!text) return ctx.reply("Give an argument!");
 
         try {
-            return ctx.reply(input);
+            return ctx.reply(text);
         } catch (error) {
             console.error("Error:", error);
-            return ctx.reply(`Error: ${error.message}`);
+            return ctx.reply(`[ ! ] Error: ${error.message}`);
         }
     }
 };

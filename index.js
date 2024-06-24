@@ -60,27 +60,31 @@ fs.readdir(path.join(__dirname, "commands")).then((commandFiles) => {
         const {
             name,
             aliases = [],
-            category = "general",
+            description: "",
+            category = "",
             permissions = [],
             execute
         } = commandModule.default;
 
         const commandHandler = async (ctx) => {
-            const input = ctx.message.text.split(" ").slice(1).join(" ");
-            const param = ctx.message.text.split(" ").slice(1);
+            // Input
+            const input = {
+                text: ctx.message.text.split(" ").slice(1).join(" "),
+                param: ctx.message.text.split(" ").slice(1)
+            };
 
             // Check permissions
             if (permissions.includes("group") && ctx.chat.type === "private") {
-                return ctx.reply("This command can only be used in group chats.");
+                return ctx.reply("[ ! ] This command can only be used in group chats.");
             }
 
             if (permissions.includes("private") && ctx.chat.type !== "private") {
-                return ctx.reply("This command can only be used in private chats.");
+                return ctx.reply("[ ! ] This command can only be used in private chats.");
             }
 
             // Check user permissions
             if (permissions.includes("developer") && parseInt(ctx.message.from.id) !== parseInt(DEVELOPER_ID)) {
-                return ctx.reply("You do not have permission to use this command.");
+                return ctx.reply("[ ! ] You do not have permission to use this command.");
             }
 
             try {
@@ -88,7 +92,7 @@ fs.readdir(path.join(__dirname, "commands")).then((commandFiles) => {
             } catch (error) {
                 console.error("Error:", error);
                 await ctx.telegram.sendMessage(parseInt(DEVELOPER_ID), `Error: ${error.message}`);
-                return ctx.reply(`Error: ${error.message}`);
+                return ctx.reply(`[ ! ] Error: ${error.message}`);
             }
         };
 
@@ -102,6 +106,7 @@ fs.readdir(path.join(__dirname, "commands")).then((commandFiles) => {
         commandConfig[name] = {
             name,
             aliases,
+            description,
             category,
             permissions,
             execute
@@ -120,7 +125,7 @@ bot.hears(/^([>|>>])\s+(.+)/, async (ctx) => {
         return ctx.reply(inspect(result));
     } catch (error) {
         console.error("Error:", error);
-        return ctx.reply(`[ ! ] Error occurred: ${error.message}`);
+        return ctx.reply(`[ ! ] Error: ${error.message}`);
     }
 });
 
@@ -146,7 +151,7 @@ bot.hears(/^\$\s+(.+)/, async (ctx) => {
         return ctx.reply(output);
     } catch (error) {
         console.error("Error:", error);
-        return ctx.reply(`[ ! ] Error occurred: ${error.message}`);
+        return ctx.reply(`[ ! ] Error: ${error.message}`);
     }
 });
 
