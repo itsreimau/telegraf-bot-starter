@@ -88,7 +88,7 @@ fs.readdir(path.join(__dirname, "commands")).then((commandFiles) => {
             }
 
             try {
-                await execute(bot, ctx, input, param);
+                await execute(bot, ctx, input);
             } catch (error) {
                 console.error("Error:", error);
                 await ctx.telegram.sendMessage(parseInt(DEVELOPER_ID), `Error: ${error.message}`);
