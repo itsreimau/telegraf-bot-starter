@@ -60,7 +60,7 @@ fs.readdir(path.join(__dirname, "commands")).then((commandFiles) => {
         const {
             name,
             aliases = [],
-            description: "",
+            description = "",
             category = "",
             permissions = [],
             execute
