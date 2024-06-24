@@ -1,9 +1,5 @@
 import _ai from "lowline.ai";
 
-_ai.init({
-    apiKey: "REPLACE_THIS_WITH_YOUR_API_KEY",
-});
-
 export default {
     name: "chatgpt",
     aliases: ["ai", "lowline"],
