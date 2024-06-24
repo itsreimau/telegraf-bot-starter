@@ -10,7 +10,6 @@ export default {
                 cmd
             } = bot.config;
             const tags = {
-                ai: "AI",
                 tools: "Tools",
                 info: "Info",
                 "": "No Category"
