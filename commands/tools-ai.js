@@ -1,11 +1,9 @@
-import {
-    _ai
-} from "lowline.ai";
+import _ai from "lowline.ai";
 
 export default {
     name: "ai",
     aliases: ["chatgpt", "lowline"],
-    description: "Repeat message",
+    description: "Chat with AI",
     category: "tools",
     permissions: [],
     async execute(bot, ctx, input) {
