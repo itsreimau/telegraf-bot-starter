@@ -1,6 +1,6 @@
 export default {
-    name: "help",
-    aliases: ["menu"],
+    name: "menu",
+    aliases: ["help", "?"],
     description: "Shows help",
     category: "main",
     permissions: [],
