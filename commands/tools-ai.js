@@ -14,7 +14,7 @@ export default {
 
         try {
             const res = await _ai.generatePlaintext({
-                prompt: input
+                prompt: text
             });
 
             return ctx.reply(res.result);
