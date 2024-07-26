@@ -10,6 +10,7 @@ import {
 import {
     exec
 } from "child_process";
+import glob from "glob";
 
 // Validate environment variables
 const requiredEnvVars = ["BOT_TOKEN", "DEVELOPER_ID", "WEBHOOK_DOMAIN"];
@@ -54,65 +55,74 @@ bot.config = {
 
 // Load commands dynamically from the "commands" directory
 const __dirname = path.dirname(new URL(import.meta.url).pathname);
-fs.readdir(path.join(__dirname, "commands")).then((commandFiles) => {
-    commandFiles.forEach(async (file) => {
-        const commandModule = await import(`./commands/${file}`);
-        const {
-            name,
-            aliases = [],
-            description = "",
-            category = "",
-            permissions = [],
-            execute
-        } = commandModule.default;
+glob(`${__dirname}/commands/**/*.js`, async (err, files) => {
+    if (err) {
+        console.error("Failed to load commands:", err);
+        return;
+    }
 
-        const commandHandler = async (ctx) => {
-            // Input
-            const input = {
-                text: ctx.message.text.split(" ").slice(1).join(" "),
-                param: ctx.message.text.split(" ").slice(1)
+    for (const file of files) {
+        try {
+            const commandModule = await import(`./commands/${path.basename(file)}`);
+            const {
+                name,
+                aliases = [],
+                description = "",
+                category = "",
+                permissions = [],
+                execute
+            } = commandModule.default;
+
+            const commandHandler = async (ctx) => {
+                // Input
+                const input = {
+                    text: ctx.message.text.split(" ").slice(1).join(" "),
+                    param: ctx.message.text.split(" ").slice(1)
+                };
+
+                // Check permissions
+                if (permissions.includes("group") && ctx.chat.type === "private") {
+                    return ctx.reply("[ ! ] This command can only be used in group chats.");
+                }
+
+                if (permissions.includes("private") && ctx.chat.type !== "private") {
+                    return ctx.reply("[ ! ] This command can only be used in private chats.");
+                }
+
+                // Check user permissions
+                if (permissions.includes("developer") && parseInt(ctx.message.from.id) !== parseInt(DEVELOPER_ID)) {
+                    return ctx.reply("[ ! ] You do not have permission to use this command.");
+                }
+
+                try {
+                    await execute(bot, ctx, input);
+                } catch (error) {
+                    console.error("Error:", error);
+                    await ctx.telegram.sendMessage(parseInt(DEVELOPER_ID), `Error: ${error.message}`);
+                    return ctx.reply(`[ ! ] Error: ${error.message}`);
+                }
             };
 
-            // Check permissions
-            if (permissions.includes("group") && ctx.chat.type === "private") {
-                return ctx.reply("[ ! ] This command can only be used in group chats.");
-            }
+            // Register command and its aliases
+            bot.command(name, commandHandler);
+            aliases.forEach((alias) => {
+                bot.command(alias, commandHandler);
+            });
 
-            if (permissions.includes("private") && ctx.chat.type !== "private") {
-                return ctx.reply("[ ! ] This command can only be used in private chats.");
-            }
-
-            // Check user permissions
-            if (permissions.includes("developer") && parseInt(ctx.message.from.id) !== parseInt(DEVELOPER_ID)) {
-                return ctx.reply("[ ! ] You do not have permission to use this command.");
-            }
-
-            try {
-                await execute(bot, ctx, input);
-            } catch (error) {
-                console.error("Error:", error);
-                await ctx.telegram.sendMessage(parseInt(DEVELOPER_ID), `Error: ${error.message}`);
-                return ctx.reply(`[ ! ] Error: ${error.message}`);
-            }
-        };
-
-        // Register command and its aliases
-        bot.command(name, commandHandler);
-        aliases.forEach((alias) => {
-            bot.command(alias, commandHandler);
-        });
-
-        // Store command metadata in the commandConfig object
-        commandConfig[name] = {
-            name,
-            aliases,
-            description,
-            category,
-            permissions,
-            execute
-        };
-    });
-}).catch((error) => console.error("Failed to load commands:", error));
+            // Store command metadata in the commandConfig object
+            commandConfig[name] = {
+                name,
+                aliases,
+                description,
+                category,
+                permissions,
+                execute
+            };
+        } catch (error) {
+            console.error(`Failed to load command from file ${file}:`, error);
+        }
+    }
+});
 
 // Handle eval code
 bot.hears(/^([>|>>])\s+(.+)/, async (ctx) => {
