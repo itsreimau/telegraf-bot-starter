@@ -1,4 +1,6 @@
-const _ai = require("lowline.ai");
+const {
+    _ai
+} = require("lowline.ai");
 
 module.exports = {
     name: "ai",
