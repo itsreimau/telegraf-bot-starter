@@ -1,3 +1,4 @@
+require("dotenv").config();
 const {
     Telegraf
 } = require("telegraf");
@@ -53,8 +54,8 @@ bot.config = {
 };
 
 // Load commands dynamically from the "commands" directory
-const __dirname = path.dirname(require.main.filename);
-fs.readdir(path.join(__dirname, "commands")).then((commandFiles) => {
+const currentDir = path.dirname(require.main.filename);
+fs.readdir(path.join(currentDir, "commands")).then((commandFiles) => {
     commandFiles.forEach(async (file) => {
         const commandModule = require(`./commands/${file}`);
         const {

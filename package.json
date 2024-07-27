@@ -8,6 +8,7 @@
   },
   "author": "Muhamad Ikbal Maulana | ItsReimau",
   "dependencies": {
+    "dotenv": "^16.4.5",
     "express": "^4.17.1",
     "glob": "11.0.0",
     "lowline.ai": "^1.0.18",
