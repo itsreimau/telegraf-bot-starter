@@ -4,7 +4,11 @@ module.exports = {
     description: "Shows help",
     category: "main",
     permissions: [],
-    execute: async (bot, ctx) => {
+    execute: async (bot, ctx, input, tools) => {
+        const [userLanguage] = await Promise.all([
+            bot.config.db.get(`user.${ctx.sender.id}.language`)
+        ]);
+
         try {
             const {
                 cmd
@@ -15,28 +19,34 @@ module.exports = {
                 "": "No Category"
             };
 
-            if (!cmd || Object.keys(cmd).length === 0) {
-                return ctx.replyWithMarkdown("**[ ! ]** Error: No commands found.");
+            if (!cmd || cmd.size === 0) {
+                return ctx.replyWithMarkdown(`${tools.format.bold("[ ! ]"} ${tools.msg.translate("Error: No commands found.", userLanguage)}`);
             }
 
-            let text = `==== **telegraf-express-bot-starter** ====\n\nHello, ${ctx.from.first_name}!\n`;
+            let text =
+                `==== ${tools.format.bold("telegraf-bot-starter"} ====\n` +
+                "\n" +
+                `Hello, ${ctx.from.first_name}!\n`;
 
-            Object.keys(tags).forEach((category) => {
-                const commands = Object.values(cmd).filter((command) => command.category === category);
-                if (commands.length > 0) {
-                    text += `\n--[ ${tags[category]} ]--\n`;
-                    commands.forEach((command) => {
+            for (const [category, categoryName] of Object.entries(tags)) {
+                const commands = cmd.filter(command => command.category === category);
+
+                if (commands.size > 0) {
+                    text += `\n--[ ${categoryName} ]--\n`;
+                    commands.forEach(command => {
                         text += `/${command.name} - ${command.description || "No description"}\n`;
                     });
                 }
-            });
+            }
 
-            text += `\n- Created by: ItsReimau -`;
+            text +=
+                "\n" +
+                `- ${tools.msg.translate("Created by", userLanguage)}: ItsReimau -`;
 
             return ctx.replyWithMarkdown(text);
         } catch (error) {
             console.error("Error:", error);
-            return ctx.reply(`[ ! ] Error: ${error.message}`);
+            return ctx.reply(`${tools.format.bold("[ ! ]"} ${tools.msg.translate("Error", userLanguage)}: ${error.message}`);
         }
     }
 };

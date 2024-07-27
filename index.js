@@ -2,8 +2,11 @@ require("dotenv").config();
 const {
     Telegraf
 } = require("telegraf");
+const SimplDB = require('simpl.db');
+const Collection = require('collection');
 const fs = require("fs/promises");
 const path = require("path");
+const tools = require("./tools/exports.js")
 const {
     inspect
 } = require("util");
@@ -25,10 +28,16 @@ const {
 // Initialize bot
 const bot = new Telegraf(BOT_TOKEN);
 
-// Initialize command config
-const commandConfig = {};
+// Initialize command config using Collection
+const commandConfig = new Collection();
+
+// Initialize database config using Simpl.DB
+const databaseConfig = new SimplDB();
+
+// Config
 bot.config = {
-    cmd: commandConfig
+    cmd: commandConfig,
+    db: databaseConfig
 };
 
 // Load commands dynamically from the "commands" directory
@@ -52,7 +61,7 @@ fs.readdir(path.join(currentDir, "commands")).then((commandFiles) => {
                 param: ctx.message.text.split(" ").slice(1)
             };
 
-            // Check permissions
+            // Check chat type permissions
             if (permissions.includes("group") && ctx.chat.type === "private") {
                 return ctx.reply("[ ! ] This command can only be used in group chats.");
             }
@@ -67,11 +76,11 @@ fs.readdir(path.join(currentDir, "commands")).then((commandFiles) => {
             }
 
             try {
-                await execute(bot, ctx, input);
+                await execute(bot, ctx, input, tools);
             } catch (error) {
                 console.error("Error:", error);
                 await ctx.telegram.sendMessage(parseInt(DEVELOPER_ID), `Error: ${error.message}`);
-                return ctx.reply(`[ ! ] Error: ${error.message}`);
+                return ctx.reply(`${tools.format.bold("[ ! ]"} ${tools.msg.translate("Error", userLanguage)}: ${error.message}`);
             }
         };
 
@@ -81,15 +90,15 @@ fs.readdir(path.join(currentDir, "commands")).then((commandFiles) => {
             bot.command(alias, commandHandler);
         });
 
-        // Store command metadata in the commandConfig object
-        commandConfig[name] = {
+        // Store command metadata in the commandConfig Collection
+        commandConfig.set(name, {
             name,
             aliases,
             description,
             category,
             permissions,
             execute
-        };
+        });
     });
 }).catch((error) => console.error("Failed to load commands:", error));
 
@@ -104,7 +113,7 @@ bot.hears(/^([>|>>])\s+(.+)/, async (ctx) => {
         return ctx.reply(inspect(result));
     } catch (error) {
         console.error("Error:", error);
-        return ctx.reply(`[ ! ] Error: ${error.message}`);
+        return ctx.reply(`${tools.format.bold("[ ! ]"} ${tools.msg.translate("Error", userLanguage)}: ${error.message}`);
     }
 });
 
@@ -130,7 +139,7 @@ bot.hears(/^\$\s+(.+)/, async (ctx) => {
         return ctx.reply(output);
     } catch (error) {
         console.error("Error:", error);
-        return ctx.reply(`[ ! ] Error: ${error.message}`);
+        return ctx.reply(`${tools.format.bold("[ ! ]"} ${tools.msg.translate("Error", userLanguage)}: ${error.message}`);
     }
 });
 

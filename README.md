@@ -31,9 +31,14 @@ This starter template provides a foundation for building a Telegram bot using Te
 
 5. Start the bot:
 
-   Run the bot locally using:
+   You can run the bot locally using PM2 for process management. First, install PM2 globally:
    ```bash
-   npm start
+   npm install pm2 -g
+   ```
+
+   Then, check the `ecosystem.config.js` file (optional) if you need to make any modifications. Start the bot using PM2 with:
+   ```bash
+   pm2 start
    ```
 
 6. Your Telegram bot should now be running and ready to use!

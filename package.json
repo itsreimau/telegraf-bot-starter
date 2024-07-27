@@ -1,7 +1,7 @@
 {
   "name": "telegraf-express-bot-starter",
   "version": "1.0.0",
-  "description": "Adaptable.io starter for Telegram bot based on Telegraf and Express.",
+  "description": "Starter template for Telegram bot based on Telegraf and Express.",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
@@ -9,8 +9,11 @@
   "author": "Muhamad Ikbal Maulana | ItsReimau",
   "license": "MIT",
   "dependencies": {
+    "bing-translate-api": "^4.0.2",
+    "collection": "^0.1.6",
     "dotenv": "^16.4.5",
     "lowline.ai": "^1.0.18",
+    "simpl.db": "^2.13.0",
     "telegraf": "^4.8.3"
   }
 }
