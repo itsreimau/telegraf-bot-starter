@@ -1,6 +1,6 @@
-import _ai from "lowline.ai";
+const _ai = require("lowline.ai");
 
-export default {
+module.exports = {
     name: "ai",
     aliases: ["chatgpt", "lowline"],
     description: "Chat with AI",

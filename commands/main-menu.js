@@ -1,4 +1,4 @@
-export default {
+module.exports = {
     name: "menu",
     aliases: ["help", "?"],
     description: "Shows help",

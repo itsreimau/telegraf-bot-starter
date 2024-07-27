@@ -1,4 +1,4 @@
-export default {
+module.exports = {
     name: "echo",
     aliases: ["say"],
     description: "Repeat message",

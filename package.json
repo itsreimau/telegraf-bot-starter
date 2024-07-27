@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "Adaptable.io starter for Telegram bot based on Telegraf and Express.",
   "main": "index.js",
-  "type": "module",
   "scripts": {
     "start": "node index.js"
   },

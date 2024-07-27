@@ -1,4 +1,4 @@
-export default {
+module.exports = {
     name: "start",
     aliases: [],
     description: "Starting bot",

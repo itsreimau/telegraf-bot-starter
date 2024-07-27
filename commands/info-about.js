@@ -1,4 +1,4 @@
-export default {
+module.exports = {
     name: "about",
     aliases: ["info"],
     description: "About bot",

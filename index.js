@@ -1,16 +1,18 @@
-import {
+const {
     Telegraf
-} from "telegraf";
-import express from "express";
-import fs from "fs/promises";
-import path from "path";
-import {
-    inspect
-} from "util";
-import {
+} = require("telegraf")
+const express = require("express");
+const path = require("path");
+const {
     exec
-} from "child_process";
-import glob from "glob";
+} = require("child_process");
+const glob = require("glob");
+const {
+    inspect,
+    promisify
+} = require("util");
+
+const globPromise = promisify(glob);
 
 // Validate environment variables
 const requiredEnvVars = ["BOT_TOKEN", "DEVELOPER_ID", "WEBHOOK_DOMAIN"];
@@ -36,10 +38,12 @@ const port = Number(PORT);
 app.use(express.json());
 
 // Set the bot API endpoint
-const webhook = await bot.createWebhook({
-    domain: WEBHOOK_DOMAIN
-});
-app.use(webhook);
+(async () => {
+    const webhook = await bot.createWebhook({
+        domain: WEBHOOK_DOMAIN
+    });
+    app.use(webhook);
+})();
 
 // Error handling middleware
 app.use((err, req, res, next) => {
@@ -54,16 +58,11 @@ bot.config = {
 };
 
 // Load commands dynamically from the "commands" directory
-const __dirname = path.dirname(new URL(import.meta.url).pathname);
-glob(`${__dirname}/commands/**/*.js`, async (err, files) => {
-    if (err) {
-        console.error("Failed to load commands:", err);
-        return;
-    }
-
+const __dirname = path.dirname(require.main.filename);
+globPromise(`${__dirname}/commands/**/*.js`).then(async (files) => {
     for (const file of files) {
         try {
-            const commandModule = await import(`./commands/${path.basename(file)}`);
+            const commandModule = require(path.resolve(file));
             const {
                 name,
                 aliases = [],
@@ -71,7 +70,7 @@ glob(`${__dirname}/commands/**/*.js`, async (err, files) => {
                 category = "",
                 permissions = [],
                 execute
-            } = commandModule.default;
+            } = commandModule;
 
             const commandHandler = async (ctx) => {
                 // Input
@@ -168,4 +167,4 @@ bot.hears(/^\$\s+(.+)/, async (ctx) => {
 // Start the Express server
 app.listen(port, () => console.log(`Listening on port ${port}`));
 
-export default bot;
+module.exports = bot;
