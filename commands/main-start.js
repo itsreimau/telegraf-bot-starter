@@ -4,7 +4,7 @@ module.exports = {
     description: "Starting bot",
     category: "main",
     permissions: [],
-    async execute(bot, ctx) {
+    execute: async (bot, ctx) => {
         return ctx.reply("WELCOME! Use /help to see available commands.");
     }
 };

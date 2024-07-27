@@ -4,7 +4,7 @@ module.exports = {
     description: "Shows help",
     category: "main",
     permissions: [],
-    async execute(bot, ctx) {
+    execute: async (bot, ctx) => {
         try {
             const {
                 cmd
