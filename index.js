@@ -6,7 +6,9 @@ const path = require("path");
 const {
     exec
 } = require("child_process");
-const glob = require("glob");
+const {
+    glob
+} = require("glob");
 const {
     inspect,
     promisify
@@ -58,7 +60,7 @@ bot.config = {
 };
 
 // Load commands dynamically from the "commands" directory
-const currentDir = path.dirname(require.main.filename); // Use `require.main.filename` to get the current directory
+const currentDir = path.dirname(require.main.filename);
 globPromise(`${currentDir}/commands/**/*.js`).then(async (files) => {
     for (const file of files) {
         try {
