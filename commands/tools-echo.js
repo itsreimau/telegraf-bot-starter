@@ -8,13 +8,13 @@ module.exports = {
         const {
             text
         } = input;
-        if (!text) return ctx.reply(`${tools.format.bold("[ ! ]"} ${tools.msg.translate("Give an argument!", userLanguage)}`);
+        if (!text) return ctx.reply(`${tools.format.bold("[ ! ]")} ${tools.msg.translate("Give an argument!", userLanguage)}`);
 
         try {
             return ctx.reply(text);
         } catch (error) {
             console.error("Error:", error);
-            return ctx.reply(`${tools.format.bold("[ ! ]"} ${tools.msg.translate("Error", userLanguage)}: ${error.message}`);
+            return ctx.reply(`${tools.format.bold("[ ! ]")} ${tools.msg.translate("Error", userLanguage)}: ${error.message}`);
         }
     }
 };

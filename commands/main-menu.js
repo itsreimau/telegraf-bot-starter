@@ -20,7 +20,7 @@ module.exports = {
             };
 
             if (!cmd || cmd.size === 0) {
-                return ctx.replyWithMarkdown(`${tools.format.bold("[ ! ]"} ${tools.msg.translate("Error: No commands found.", userLanguage)}`);
+                return ctx.replyWithMarkdown(`${tools.format.bold("[ ! ]")} ${tools.msg.translate("Error: No commands found.", userLanguage)}`);
             }
 
             let text =
@@ -46,7 +46,7 @@ module.exports = {
             return ctx.replyWithMarkdown(text);
         } catch (error) {
             console.error("Error:", error);
-            return ctx.reply(`${tools.format.bold("[ ! ]"} ${tools.msg.translate("Error", userLanguage)}: ${error.message}`);
+            return ctx.reply(`${tools.format.bold("[ ! ]")} ${tools.msg.translate("Error", userLanguage)}: ${error.message}`);
         }
     }
 };

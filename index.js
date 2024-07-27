@@ -80,7 +80,7 @@ fs.readdir(path.join(currentDir, "commands")).then((commandFiles) => {
             } catch (error) {
                 console.error("Error:", error);
                 await ctx.telegram.sendMessage(parseInt(DEVELOPER_ID), `Error: ${error.message}`);
-                return ctx.reply(`${tools.format.bold("[ ! ]"} ${tools.msg.translate("Error", userLanguage)}: ${error.message}`);
+                return ctx.reply(`${tools.format.bold("[ ! ]")} ${tools.msg.translate("Error", userLanguage)}: ${error.message}`);
             }
         };
 
@@ -113,7 +113,7 @@ bot.hears(/^([>|>>])\s+(.+)/, async (ctx) => {
         return ctx.reply(inspect(result));
     } catch (error) {
         console.error("Error:", error);
-        return ctx.reply(`${tools.format.bold("[ ! ]"} ${tools.msg.translate("Error", userLanguage)}: ${error.message}`);
+        return ctx.reply(`${tools.format.bold("[ ! ]")} ${tools.msg.translate("Error", userLanguage)}: ${error.message}`);
     }
 });
 
@@ -139,7 +139,7 @@ bot.hears(/^\$\s+(.+)/, async (ctx) => {
         return ctx.reply(output);
     } catch (error) {
         console.error("Error:", error);
-        return ctx.reply(`${tools.format.bold("[ ! ]"} ${tools.msg.translate("Error", userLanguage)}: ${error.message}`);
+        return ctx.reply(`${tools.format.bold("[ ! ]")} ${tools.msg.translate("Error", userLanguage)}: ${error.message}`);
     }
 });
 
