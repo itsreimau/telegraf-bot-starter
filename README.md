@@ -1,33 +1,42 @@
-# Telegraf Express Bot Starter
+# Telegraf Bot Starter
 
-This starter template provides a foundation for building a Telegram bot using Telegraf and Express, designed for hosting on Adaptable.io.
+This starter template provides a foundation for building a Telegram bot using Telegraf, designed to run in any environment that supports Node.js.
 
 ## Features
 
 - **[Telegraf](https://telegraf.js.org/)**: Utilizes the Telegraf library for easy interaction with the Telegram Bot API.
-- **[Express](https://expressjs.com/)**: Integrates Express to create a flexible web server for handling incoming updates.
-- **[Adaptable.io](https://adaptable.io/)**: Seamlessly deploy and host your bot with Adaptable.io.
 
 ## Getting Started
 
-1. [Fork](https://github.com/itsreimau/telegraf-express-bot-starter/fork) this repository.
+1. [Fork](https://github.com/itsreimau/telegraf-bot-starter/fork) this repository.
 
-3. Deploy to Adaptable.io:
+2. Clone the repository to your local machine:
+   ```bash
+   git clone https://github.com/your-username/telegraf-bot-starter.git
+   cd telegraf-bot-starter
+   ```
 
-   - In Adaptable.io, navigate to the dashboard.
-   - Click "New App", "Connect an Existing Repository", and select your forked repository.
-   - Follow the deployment prompts to deploy your bot on Adaptable.io.
+3. Install dependencies:
+   ```bash
+   npm install
+   ```
 
-4. Set up the environment in Adaptable.io:
+4. Set up environment variables:
 
-   - In Adaptable.io, navigate to `Settings > Configuration > Runtime Environment`.
-   - Add the following environment variables:
-     - `BOT_TOKEN`: Your Telegram bot token.
-     - `DEVELOPER_ID`: Your ID (for reference or additional functionality).
-     - `PORT` (Optional, default: 3000): The port on which the bot server will run.
-     - `WEBHOOK_URL`: Set this to 'https://your-project-name.adaptable.app/' if your project doesn't use a custom domain.
+   Create a `.env` file in the root directory of your project and add the following environment variables:
+   ```env
+   BOT_TOKEN=your-telegram-bot-token
+   DEVELOPER_ID=your-telegram-id
+   ```
 
-5. Your Telegram bot is now deployed and ready to use!
+5. Start the bot:
+
+   Run the bot locally using:
+   ```bash
+   npm start
+   ```
+
+6. Your Telegram bot should now be running and ready to use!
 
 ## Contributing
 

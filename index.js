@@ -2,7 +2,6 @@ require("dotenv").config();
 const {
     Telegraf
 } = require("telegraf");
-const express = require("express");
 const fs = require("fs/promises");
 const path = require("path");
 const {
@@ -13,39 +12,18 @@ const {
 } = require("child_process");
 
 // Validate environment variables
-const requiredEnvVars = ["BOT_TOKEN", "DEVELOPER_ID", "WEBHOOK_DOMAIN"];
+const requiredEnvVars = ["BOT_TOKEN", "DEVELOPER_ID"];
 requiredEnvVars.forEach((envVar) => {
     if (!process.env[envVar]) throw new Error(`'${envVar}' env var is required!`);
 });
 
 const {
     BOT_TOKEN,
-    DEVELOPER_ID,
-    WEBHOOK_DOMAIN,
-    PORT = 3000
+    DEVELOPER_ID
 } = process.env;
 
 // Initialize bot
 const bot = new Telegraf(BOT_TOKEN);
-
-// Initialize the Express application
-const app = express();
-const port = Number(PORT);
-
-// Use middleware to parse incoming JSON requests
-app.use(express.json());
-
-// Set the bot API endpoint
-const webhook = bot.createWebhook({
-    domain: WEBHOOK_DOMAIN
-});
-app.use(webhook);
-
-// Error handling middleware
-app.use((err, req, res, next) => {
-    console.error(err.stack);
-    res.status(500).send("Something went wrong!");
-});
 
 // Initialize command config
 const commandConfig = {};
@@ -156,7 +134,7 @@ bot.hears(/^\$\s+(.+)/, async (ctx) => {
     }
 });
 
-// Start the Express server
-app.listen(port, () => console.log(`Listening on port ${port}`));
+// Start polling
+bot.launch().then(() => console.log("Bot is running..."));
 
 module.exports = bot;
