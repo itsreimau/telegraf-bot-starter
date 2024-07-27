@@ -1,6 +1,6 @@
 const {
     Telegraf
-} = require("telegraf")
+} = require("telegraf");
 const express = require("express");
 const path = require("path");
 const {
@@ -58,8 +58,8 @@ bot.config = {
 };
 
 // Load commands dynamically from the "commands" directory
-const __dirname = path.dirname(require.main.filename);
-globPromise(`${__dirname}/commands/**/*.js`).then(async (files) => {
+const currentDir = path.dirname(require.main.filename); // Use `require.main.filename` to get the current directory
+globPromise(`${currentDir}/commands/**/*.js`).then(async (files) => {
     for (const file of files) {
         try {
             const commandModule = require(path.resolve(file));
