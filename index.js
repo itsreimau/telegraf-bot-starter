@@ -2,8 +2,8 @@ require("dotenv").config();
 const {
     Telegraf
 } = require("telegraf");
-const SimplDB = require('simpl.db');
-const Collection = require('collection');
+const SimplDB = require("simpl.db");
+const { Collection } = require("@discordjs/collection");
 const fs = require("fs/promises");
 const path = require("path");
 const tools = require("./tools/exports.js")
@@ -28,7 +28,7 @@ const {
 // Initialize bot
 const bot = new Telegraf(BOT_TOKEN);
 
-// Initialize command config using Collection
+// Initialize command config using Collection from discord.js
 const commandConfig = new Collection();
 
 // Initialize database config using Simpl.DB

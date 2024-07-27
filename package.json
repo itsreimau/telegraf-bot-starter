@@ -9,8 +9,8 @@
   "author": "Muhamad Ikbal Maulana | ItsReimau",
   "license": "MIT",
   "dependencies": {
+    "@discordjs/collection": "^2.1.0",
     "bing-translate-api": "^4.0.2",
-    "collection": "^0.1.6",
     "dotenv": "^16.4.5",
     "lowline.ai": "^1.0.18",
     "simpl.db": "^2.13.0",
