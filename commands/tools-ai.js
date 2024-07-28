@@ -16,7 +16,7 @@ module.exports = {
         const {
             text
         } = input;
-        if (!text) return ctx.reply(`${tools.format.markdown.bold("[ ! ]")} ${tools.msg.translate("Give an argument!", userLanguage)}`);
+        if (!text) return ctx.reply(`⚠ ${await tools.msg.translate("Give an argument!", userLanguage)}`);
 
         try {
             const res = await _ai.generatePlaintext({
@@ -26,7 +26,7 @@ module.exports = {
             return ctx.reply(res.result);
         } catch (error) {
             console.error("Error:", error);
-            return ctx.replyWithMarkdown(`${tools.format.markdown.bold("[ ! ]")} ${tools.msg.translate("Error", userLanguage)}: ${error.message}`);
+            return ctx.reply(`⚠ ${await tools.msg.translate("Error", userLanguage)}: ${error.message}`);
         }
     }
 };

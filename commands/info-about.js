@@ -9,6 +9,6 @@ module.exports = {
             bot.config.db.get(`user.${ctx.message.from.id}.language`)
         ]);
 
-        return ctx.reply(tools.msg.translate("This starter template provides a foundation for building a Telegram bot using Telegraf and Express.", userLanguage));
+        return ctx.reply(await tools.msg.translate("This starter template provides a foundation for building a Telegram bot using Telegraf and Express.", userLanguage));
     }
 };

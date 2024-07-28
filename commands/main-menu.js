@@ -14,39 +14,40 @@ module.exports = {
                 cmd
             } = bot.config;
             const tags = {
-                tools: "Tools",
-                info: "Info",
-                "": "No Category"
+                tools: "🛠️ Tools",
+                info: "ℹ️ Info",
+                "": "❓ No Category"
             };
 
             if (!cmd || cmd.size === 0) {
-                return ctx.replyWithMarkdown(`${tools.format.markdown.bold("[ ! ]")} ${tools.msg.translate("Error: No commands found.", userLanguage)}`);
+                return ctx.reply(`⚠ ${await tools.msg.translate("Error: No commands found.", userLanguage)}`);
             }
 
             let text =
-                `==== ${tools.format.markdown.bold("telegraf-bot-starter"} ====\n` +
+                `==== "telegraf-bot-starter ====\n` +
                 "\n" +
-                `Hello, ${ctx.from.first_name}!\n`;
+                `👋 Hello, ${ctx.from.first_name}!\n`;
 
             for (const [category, categoryName] of Object.entries(tags)) {
                 const commands = cmd.filter(command => command.category === category);
 
                 if (commands.size > 0) {
                     text += `\n--[ ${categoryName} ]--\n`;
-                    commands.forEach(command => {
-                        text += `/${command.name} - ${command.description || "No description"}\n`;
-                    });
+                    for (const command of commands.values()) {
+                        const description = await tools.msg.translate(command.description || "No description", userLanguage);
+                        text += `/${command.name} - ${description}\n`;
+                    }
                 }
             }
 
             text +=
                 "\n" +
-                `- ${tools.msg.translate("Created by", userLanguage)}: ItsReimau -`;
+                `- 🛠️ ${await tools.msg.translate("Created by", userLanguage)}: ItsReimau -`;
 
-            return ctx.replyWithMarkdown(text);
+            return ctx.reply(text);
         } catch (error) {
             console.error("Error:", error);
-            return ctx.replyWithMarkdown(`${tools.format.markdown.bold("[ ! ]")} ${tools.msg.translate("Error", userLanguage)}: ${error.message}`);
+            return ctx.reply(`⚠ ${await tools.msg.translate("Error", userLanguage)}: ${error.message}`);
         }
     }
 };

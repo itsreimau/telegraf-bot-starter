@@ -18,6 +18,6 @@ module.exports = {
             });
         }
 
-        return ctx.reply(tools.msg.translate("WELCOME! Use /help to see available commands.", userLanguage || "en"));
+        return ctx.reply(await tools.msg.translate("WELCOME! Use /help to see available commands.", userLanguage || "en"));
     }
 };

@@ -57,6 +57,10 @@ fs.readdir(path.join(currentDir, "commands")).then((commandFiles) => {
         } = commandModule;
 
         const commandHandler = async (ctx) => {
+            const [userLanguage] = await Promise.all([
+                bot.config.db.get(`user.${ctx.message.from.id}.language`)
+            ]);
+
             // Input
             const input = {
                 text: ctx.message.text.split(" ").slice(1).join(" "),
@@ -65,16 +69,16 @@ fs.readdir(path.join(currentDir, "commands")).then((commandFiles) => {
 
             // Check chat type permissions
             if (permissions.includes("group") && ctx.chat.type === "private") {
-                return ctx.replyWithMarkdown(`${tools.format.markdown.bold("[ ! ]")} This command can only be used in group chats.`);
+                return ctx.reply(`⚠ ${await tools.msg.translate("This command can only be used in group chats.", userLanguage)}`);
             }
 
             if (permissions.includes("private") && ctx.chat.type !== "private") {
-                return ctx.replyWithMarkdown(`${tools.format.markdown.bold("[ ! ]")} This command can only be used in private chats.`);
+                return ctx.reply(`⚠ ${await tools.msg.translate("This command can only be used in private chats.", userLanguage)}`);
             }
 
             // Check user permissions
             if (permissions.includes("developer") && parseInt(ctx.message.from.id) !== parseInt(DEVELOPER_ID)) {
-                return ctx.replyWithMarkdown(`${tools.format.markdown.bold("[ ! ]")} You do not have permission to use this command.`);
+                return ctx.reply(`⚠ ${await tools.msg.translate("You do not have permission to use this command.", userLanguage)}`);
             }
 
             try {
@@ -82,7 +86,7 @@ fs.readdir(path.join(currentDir, "commands")).then((commandFiles) => {
             } catch (error) {
                 console.error("Error:", error);
                 await ctx.telegram.sendMessage(parseInt(DEVELOPER_ID), `Error: ${error.message}`);
-                return ctx.replyWithMarkdown(`${tools.format.markdown.bold("[ ! ]")} ${tools.msg.translate("Error", userLanguage)}: ${error.message}`);
+                return ctx.reply(`⚠ ${await tools.msg.translate("Error", userLanguage)}: ${error.message}`);
             }
         };
 
@@ -115,7 +119,7 @@ bot.hears(/^([>|>>])\s+(.+)/, async (ctx) => {
         return ctx.reply(inspect(result));
     } catch (error) {
         console.error("Error:", error);
-        return ctx.replyWithMarkdown(`${tools.format.markdown.bold("[ ! ]")} ${tools.msg.translate("Error", userLanguage)}: ${error.message}`);
+        return ctx.reply(`⚠ ${await tools.msg.translate("Error", userLanguage)}: ${error.message}`);
     }
 });
 
@@ -141,7 +145,7 @@ bot.hears(/^\$\s+(.+)/, async (ctx) => {
         return ctx.reply(output);
     } catch (error) {
         console.error("Error:", error);
-        return ctx.replyWithMarkdown(`${tools.format.markdown.bold("[ ! ]")} ${tools.msg.translate("Error", userLanguage)}: ${error.message}`);
+        return ctx.reply(`⚠ ${await tools.msg.translate("Error", userLanguage)}: ${error.message}`);
     }
 });
 

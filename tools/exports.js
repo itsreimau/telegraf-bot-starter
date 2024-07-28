@@ -3,7 +3,6 @@ const {
     listUrl
 } = require("./api.js");
 const {
-    format,
     translate
 } = require("./msg.js");
 
@@ -13,7 +12,6 @@ const tools = {
         listUrl
     },
     msg: {
-        format,
         translate
     }
 };
