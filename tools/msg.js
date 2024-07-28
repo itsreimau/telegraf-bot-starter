@@ -61,8 +61,7 @@ const format = {
             return `~~${text}~~`;
         },
         underline(text) {
-            // Markdown tidak mendukung underline secara langsung
-            return `<u>${text}</u>`;
+            return `<u>${text}</u>`; // Markdown does not support underlines directly
         },
         blockquote(text) {
             return text.split("\n").map(line => `> ${line}`).join("\n");

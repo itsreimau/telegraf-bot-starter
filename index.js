@@ -3,7 +3,9 @@ const {
     Telegraf
 } = require("telegraf");
 const SimplDB = require("simpl.db");
-const { Collection } = require("@discordjs/collection");
+const {
+    Collection
+} = require("@discordjs/collection");
 const fs = require("fs/promises");
 const path = require("path");
 const tools = require("./tools/exports.js")
@@ -63,16 +65,16 @@ fs.readdir(path.join(currentDir, "commands")).then((commandFiles) => {
 
             // Check chat type permissions
             if (permissions.includes("group") && ctx.chat.type === "private") {
-                return ctx.reply("[ ! ] This command can only be used in group chats.");
+                return ctx.replyWithMarkdown(`${tools.format.markdown.bold("[ ! ]")} This command can only be used in group chats.`);
             }
 
             if (permissions.includes("private") && ctx.chat.type !== "private") {
-                return ctx.reply("[ ! ] This command can only be used in private chats.");
+                return ctx.replyWithMarkdown(`${tools.format.markdown.bold("[ ! ]")} This command can only be used in private chats.`);
             }
 
             // Check user permissions
             if (permissions.includes("developer") && parseInt(ctx.message.from.id) !== parseInt(DEVELOPER_ID)) {
-                return ctx.reply("[ ! ] You do not have permission to use this command.");
+                return ctx.replyWithMarkdown(`${tools.format.markdown.bold("[ ! ]")} You do not have permission to use this command.`);
             }
 
             try {
@@ -80,7 +82,7 @@ fs.readdir(path.join(currentDir, "commands")).then((commandFiles) => {
             } catch (error) {
                 console.error("Error:", error);
                 await ctx.telegram.sendMessage(parseInt(DEVELOPER_ID), `Error: ${error.message}`);
-                return ctx.reply(`${tools.format.bold("[ ! ]")} ${tools.msg.translate("Error", userLanguage)}: ${error.message}`);
+                return ctx.replyWithMarkdown(`${tools.format.markdown.bold("[ ! ]")} ${tools.msg.translate("Error", userLanguage)}: ${error.message}`);
             }
         };
 
@@ -113,7 +115,7 @@ bot.hears(/^([>|>>])\s+(.+)/, async (ctx) => {
         return ctx.reply(inspect(result));
     } catch (error) {
         console.error("Error:", error);
-        return ctx.reply(`${tools.format.bold("[ ! ]")} ${tools.msg.translate("Error", userLanguage)}: ${error.message}`);
+        return ctx.replyWithMarkdown(`${tools.format.markdown.bold("[ ! ]")} ${tools.msg.translate("Error", userLanguage)}: ${error.message}`);
     }
 });
 
@@ -139,7 +141,7 @@ bot.hears(/^\$\s+(.+)/, async (ctx) => {
         return ctx.reply(output);
     } catch (error) {
         console.error("Error:", error);
-        return ctx.reply(`${tools.format.bold("[ ! ]")} ${tools.msg.translate("Error", userLanguage)}: ${error.message}`);
+        return ctx.replyWithMarkdown(`${tools.format.markdown.bold("[ ! ]")} ${tools.msg.translate("Error", userLanguage)}: ${error.message}`);
     }
 });
 

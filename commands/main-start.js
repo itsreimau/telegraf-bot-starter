@@ -5,13 +5,13 @@ module.exports = {
     category: "main",
     permissions: [],
     execute: async (bot, ctx, input, tools) => {
-        const userDb = await bot.config.db.get(`user.${ctx.sender.id}`);
+        const userDb = await bot.config.db.get(`user.${ctx.message.from.id}`);
         const [userLanguage] = await Promise.all([
-            bot.config.db.get(`user.${ctx.sender.id}.language`)
+            bot.config.db.get(`user.${ctx.message.from.id}.language`)
         ]);
 
         if (!userDb) {
-            bot.config.db.set(`user.${ctx.sender.id}`, {
+            bot.config.db.set(`user.${ctx.message.from.id}`, {
                 coin: 10,
                 language: "en",
                 premium: false

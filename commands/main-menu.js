@@ -6,7 +6,7 @@ module.exports = {
     permissions: [],
     execute: async (bot, ctx, input, tools) => {
         const [userLanguage] = await Promise.all([
-            bot.config.db.get(`user.${ctx.sender.id}.language`)
+            bot.config.db.get(`user.${ctx.message.from.id}.language`)
         ]);
 
         try {
@@ -20,11 +20,11 @@ module.exports = {
             };
 
             if (!cmd || cmd.size === 0) {
-                return ctx.replyWithMarkdown(`${tools.format.bold("[ ! ]")} ${tools.msg.translate("Error: No commands found.", userLanguage)}`);
+                return ctx.replyWithMarkdown(`${tools.format.markdown.bold("[ ! ]")} ${tools.msg.translate("Error: No commands found.", userLanguage)}`);
             }
 
             let text =
-                `==== ${tools.format.bold("telegraf-bot-starter"} ====\n` +
+                `==== ${tools.format.markdown.bold("telegraf-bot-starter"} ====\n` +
                 "\n" +
                 `Hello, ${ctx.from.first_name}!\n`;
 
@@ -46,7 +46,7 @@ module.exports = {
             return ctx.replyWithMarkdown(text);
         } catch (error) {
             console.error("Error:", error);
-            return ctx.reply(`${tools.format.bold("[ ! ]")} ${tools.msg.translate("Error", userLanguage)}: ${error.message}`);
+            return ctx.replyWithMarkdown(`${tools.format.markdown.bold("[ ! ]")} ${tools.msg.translate("Error", userLanguage)}: ${error.message}`);
         }
     }
 };
