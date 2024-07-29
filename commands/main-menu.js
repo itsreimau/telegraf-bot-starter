@@ -11,7 +11,7 @@ module.exports = {
     action: "typing",
     execute: async (bot, ctx, input, tools) => {
         const [userLanguage] = await Promise.all([
-            bot.config.db.get(`user.${ctx.message.from.id}.language`)
+            bot.config.db.get(`user.${ctx.from.id}.language`)
         ]);
 
         try {
@@ -26,12 +26,10 @@ module.exports = {
             };
 
             if (!cmd || cmd.size === 0) {
-                return ctx.reply(`⚠ ${await tools.msg.translate("Error: No commands found.", userLanguage)}`);
+                return ctx.reply(`⚠ ${await tools.msg.translate("No commands found.", userLanguage)}`);
             }
 
-            let text =
-                `👋 ${await tools.msg.translate(`Hey ${ctx.from.first_name}! This is a list of available commands`, userLanguage)}:\n` +
-                "\n";
+            let text = `👋 ${await tools.msg.translate(`Hey ${ctx.from.first_name}! This is a list of available commands`, userLanguage)}:\n`
 
             for (const [category, categoryName] of Object.entries(tags)) {
                 const commands = cmd.filter(command => command.category === category);

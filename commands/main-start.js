@@ -6,19 +6,17 @@ module.exports = {
     permissions: [],
     action: "typing",
     execute: async (bot, ctx, input, tools) => {
-        const userDb = await bot.config.db.get(`user.${ctx.message.from.id}`);
         const [userLanguage] = await Promise.all([
-            bot.config.db.get(`user.${ctx.message.from.id}.language`)
+            bot.config.db.get(`user.${ctx.from.id}.language`)
         ]);
 
         if (!userDb) {
-            await bot.config.db.set(`user.${ctx.message.from.id}`, {
-                coin: 10,
-                language: "en",
+            await bot.config.db.set(`user.${ctx.from.id}`, {
+                language: ctx.from.language_code,
                 premium: false
             });
         }
 
-        return ctx.reply(await tools.msg.translate("WELCOME! Use /help to see available commands.", userLanguage || "en"));
+        return ctx.reply(await tools.msg.translate("WELCOME! Use /help to see available commands.", userLanguage || ctx.from.language_code));
     }
 };

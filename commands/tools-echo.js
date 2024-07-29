@@ -7,7 +7,7 @@ module.exports = {
     action: "typing",
     async execute(bot, ctx, input, tools) {
         const [userLanguage] = await Promise.all([
-            bot.config.db.get(`user.${ctx.message.from.id}.language`)
+            bot.config.db.get(`user.${ctx.from.id}.language`)
         ]);
 
         const {

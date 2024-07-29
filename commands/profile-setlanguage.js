@@ -1,25 +1,20 @@
-const {
-    _ai
-} = require("lowline.ai");
 const fs = require("fs/promises");
 const path = require("path");
 
 module.exports = {
     name: "setlanguage",
     aliases: ["setlang"],
-    description: "Set language.",
+    description: "Set language",
     category: "profile",
     permissions: ["private"],
     action: "typing",
     async execute(bot, ctx, input, tools) {
-        const userDb = await bot.config.db.get(`user.${ctx.message.from.id}`);
         const [userLanguage] = await Promise.all([
-            bot.config.db.get(`user.${ctx.message.from.id}.language`)
+            bot.config.db.get(`user.${ctx.from.id}.language`)
         ]);
 
         if (!userDb) {
-            bot.config.db.set(`user.${ctx.message.from.id}`, {
-                coin: 10,
+            await bot.config.db.set(`user.${ctx.from.id}`, {
                 language: "en",
                 premium: false
             });
@@ -50,7 +45,7 @@ module.exports = {
         }
 
         try {
-            bot.config.db.set(`user.${ctx.message.from.id}.language`, text);
+            bot.config.db.set(`user.${ctx.from.id}.language`, text);
 
             return ctx.reply(`✅ ${await tools.msg.translate("Language changed successfully.", userLanguage)}`);
         } catch (error) {

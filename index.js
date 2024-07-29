@@ -59,8 +59,9 @@ fs.readdir(path.join(__dirname, "commands")).then((commandFiles) => {
         const commandHandler = async (ctx) => {
             await ctx.sendChatAction(action);
 
+            const userDb = await bot.config.db.get(`user.${ctx.from.id}`);
             const [userLanguage] = await Promise.all([
-                bot.config.db.get(`user.${ctx.message.from.id}.language`)
+                bot.config.db.get(`user.${ctx.from.id}.language`)
             ]);
 
             // Input
@@ -79,8 +80,13 @@ fs.readdir(path.join(__dirname, "commands")).then((commandFiles) => {
             }
 
             // Check user permissions
-            if (permissions.includes("developer") && parseInt(ctx.message.from.id) !== parseInt(DEVELOPER_ID)) {
+            if (permissions.includes("developer") && parseInt(ctx.from.id) !== parseInt(DEVELOPER_ID)) {
                 return ctx.reply(`⚠ ${await tools.msg.translate("You do not have permission to use this command.", userLanguage)}`);
+            }
+
+            // Check user database
+            if (name !== "start" && !userDb) {
+                return ctx.reply(`⚠ ${await tools.msg.translate("You are not registered in our database yet! Type /start to register.", userLanguage)}`);
             }
 
             try {
@@ -113,10 +119,10 @@ fs.readdir(path.join(__dirname, "commands")).then((commandFiles) => {
 // Handle eval code
 bot.hears(/^([>|>>])\s+(.+)/, async (ctx) => {
     const [userLanguage] = await Promise.all([
-        bot.config.db.get(`user.${ctx.message.from.id}.language`)
+        bot.config.db.get(`user.${ctx.from.id}.language`)
     ]);
 
-    if (parseInt(ctx.message.from.id) !== parseInt(DEVELOPER_ID)) return;
+    if (parseInt(ctx.from.id) !== parseInt(DEVELOPER_ID)) return;
 
     try {
         const code = ctx.match[2];
@@ -132,10 +138,10 @@ bot.hears(/^([>|>>])\s+(.+)/, async (ctx) => {
 // Handle shell command
 bot.hears(/^\$\s+(.+)/, async (ctx) => {
     const [userLanguage] = await Promise.all([
-        bot.config.db.get(`user.${ctx.message.from.id}.language`)
+        bot.config.db.get(`user.${ctx.from.id}.language`)
     ]);
 
-    if (parseInt(ctx.message.from.id) !== parseInt(DEVELOPER_ID)) return;
+    if (parseInt(ctx.from.id) !== parseInt(DEVELOPER_ID)) return;
 
     try {
         const command = ctx.match[1];
