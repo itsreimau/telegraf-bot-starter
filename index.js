@@ -43,8 +43,7 @@ bot.config = {
 };
 
 // Load commands dynamically from the "commands" directory
-const currentDir = path.dirname(require.main.filename);
-fs.readdir(path.join(currentDir, "commands")).then((commandFiles) => {
+fs.readdir(path.join(__dirname, "commands")).then((commandFiles) => {
     commandFiles.forEach(async (file) => {
         const commandModule = require(`./commands/${file}`);
         const {

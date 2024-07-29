@@ -30,10 +30,9 @@ module.exports = {
         } = input;
         if (!text) return ctx.reply(`⚠ ${await tools.msg.translate("Give an argument! Use 'list' in the argument to see the list of available languages.", userLanguage)}`);
 
-        const currentDir = path.dirname(require.main.filename);
         let lang;
         try {
-            const list = await fs.readFile(path.join(currentDir, '../assets/lang.json'), 'utf8');
+            const list = await fs.readFile(path.join(__dirname, '../assets/lang.json'), 'utf8');
             lang = JSON.parse(list);
         } catch (error) {
             console.error("Error:", error);
