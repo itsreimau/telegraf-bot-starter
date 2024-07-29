@@ -4,6 +4,7 @@ module.exports = {
     description: "Repeat message",
     category: "tools",
     permissions: [],
+    action: "typing",
     async execute(bot, ctx, input, tools) {
         const [userLanguage] = await Promise.all([
             bot.config.db.get(`user.${ctx.message.from.id}.language`)
@@ -13,7 +14,7 @@ module.exports = {
             text
         } = input;
         if (!text) return ctx.reply(`⚠ ${await tools.msg.translate("Give an argument!", userLanguage)}`);
-\
+
         try {
             return ctx.reply(text);
         } catch (error) {

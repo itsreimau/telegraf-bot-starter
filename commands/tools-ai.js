@@ -8,6 +8,7 @@ module.exports = {
     description: "Chat with AI",
     category: "tools",
     permissions: [],
+    action: "typing",
     async execute(bot, ctx, input, tools) {
         const [userLanguage] = await Promise.all([
             bot.config.db.get(`user.${ctx.message.from.id}.language`)

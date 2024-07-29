@@ -4,6 +4,7 @@ module.exports = {
     description: "Check ping",
     category: "info",
     permissions: [],
+    action: "typing",
     execute: async (bot, ctx, input, tools) => {
         return ctx.reply("Pong!");
     }

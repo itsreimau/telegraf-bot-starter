@@ -53,6 +53,7 @@ fs.readdir(path.join(currentDir, "commands")).then((commandFiles) => {
             description = "",
             category = "",
             permissions = [],
+            action = "",
             execute
         } = commandModule;
 
@@ -83,6 +84,7 @@ fs.readdir(path.join(currentDir, "commands")).then((commandFiles) => {
 
             try {
                 await execute(bot, ctx, input, tools);
+                await ctx.sendChatAction(action);
             } catch (error) {
                 console.error("Error:", error);
                 await ctx.telegram.sendMessage(parseInt(DEVELOPER_ID), `Error: ${error.message}`);
@@ -110,6 +112,10 @@ fs.readdir(path.join(currentDir, "commands")).then((commandFiles) => {
 
 // Handle eval code
 bot.hears(/^([>|>>])\s+(.+)/, async (ctx) => {
+    const [userLanguage] = await Promise.all([
+        bot.config.db.get(`user.${ctx.message.from.id}.language`)
+    ]);
+
     if (parseInt(ctx.message.from.id) !== parseInt(DEVELOPER_ID)) return;
 
     try {
@@ -125,6 +131,10 @@ bot.hears(/^([>|>>])\s+(.+)/, async (ctx) => {
 
 // Handle shell command
 bot.hears(/^\$\s+(.+)/, async (ctx) => {
+    const [userLanguage] = await Promise.all([
+        bot.config.db.get(`user.${ctx.message.from.id}.language`)
+    ]);
+
     if (parseInt(ctx.message.from.id) !== parseInt(DEVELOPER_ID)) return;
 
     try {

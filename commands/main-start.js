@@ -4,6 +4,7 @@ module.exports = {
     description: "Starting bot",
     category: "main",
     permissions: [],
+    action: "typing",
     execute: async (bot, ctx, input, tools) => {
         const userDb = await bot.config.db.get(`user.${ctx.message.from.id}`);
         const [userLanguage] = await Promise.all([
