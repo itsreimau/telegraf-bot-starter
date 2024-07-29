@@ -33,11 +33,12 @@ module.exports = {
             }
 
             const text =
-                `🆔 ID: ${ctx.from.id}\n` +
-                `📛 ${tools.msg.translate("Name", userLanguage)}: ${ctx.from.first_name} ${ctx.from.last_name || ''}\n` +
-                `👤 ${tools.msg.translate("Username", userLanguage)}: ${ctx.from.username}\n` +
-                `🌐 ${tools.msg.translate("Language", userLanguage)}: ${lang[userLanguage] || userLanguage}\n` +
-                `❇ Premium: ${userPremium ? tools.msg.translate("Yes", userLanguage) : tools.msg.translate("No", userLanguage)}`;
+                "👤 Profile\n" +
+                `- ID: ${ctx.from.id}\n` +
+                `- ${await tools.msg.translate("Name", userLanguage)}: ${ctx.from.first_name} ${ctx.from.last_name || ''}\n` +
+                `- ${await tools.msg.translate("Username", userLanguage)}: ${ctx.from.username}\n` +
+                `- ${await tools.msg.translate("Language", userLanguage)}: ${lang[userLanguage] || userLanguage}\n` +
+                `- Premium: ${await userPremium ? await tools.msg.translate("Yes", userLanguage) : await tools.msg.translate("No", userLanguage)}`;
 
             return await ctx.replyWithPhoto(profile, {
                 caption: text
