@@ -12,7 +12,7 @@ module.exports = {
         ]);
 
         if (!userDb) {
-            bot.config.db.set(`user.${ctx.message.from.id}`, {
+            await bot.config.db.set(`user.${ctx.message.from.id}`, {
                 coin: 10,
                 language: "en",
                 premium: false
