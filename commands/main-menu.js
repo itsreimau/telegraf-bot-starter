@@ -19,6 +19,7 @@ module.exports = {
                 cmd
             } = bot.config;
             const tags = {
+                profile: "👤 Profile",
                 tools: "🛠️ Tools",
                 info: "ℹ️ Info",
                 "": "❓ No Category"
