@@ -13,13 +13,6 @@ module.exports = {
             bot.config.db.get(`user.${ctx.from.id}.language`)
         ]);
 
-        if (!userDb) {
-            await bot.config.db.set(`user.${ctx.from.id}`, {
-                language: "en",
-                premium: false
-            });
-        }
-
         const {
             text
         } = input;
