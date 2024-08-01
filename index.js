@@ -59,10 +59,17 @@ fs.readdir(path.join(__dirname, "commands")).then((commandFiles) => {
         const commandHandler = async (ctx) => {
             await ctx.sendChatAction(action);
 
+            // Database
             const userDb = await bot.config.db.get(`user.${ctx.from.id}`);
             const [userLanguage] = await Promise.all([
                 bot.config.db.get(`user.${ctx.from.id}.language`)
             ]);
+            if (!userDb) {
+                await bot.config.db.set(`user.${ctx.from.id}`, {
+                    language: ctx.from.language_code,
+                    premium: false
+                });
+            }
 
             // Input
             const input = {
