@@ -12,11 +12,13 @@ module.exports = {
         const [userLanguage] = await Promise.all([
             bot.config.db.get(`user.${ctx.from.id}.language`)
         ]);
-
         const {
             text
         } = input;
-        if (!text) return ctx.reply(`⚠ ${await tools.msg.translate("Give an argument! Use 'list' in the argument to see the list of available languages.", userLanguage)}`);
+
+        if (!text) {
+            return ctx.reply(`⚠ ${await tools.msg.translate("Give an argument! Use 'list' in the argument to see the list of available languages.", userLanguage)}`);
+        }
 
         let lang;
         try {

@@ -1,8 +1,8 @@
 module.exports = {
-    name: "echo",
-    aliases: ["say"],
-    description: "Repeat message",
-    category: "tools",
+    name: "dalle",
+    aliases: ["aiimg"],
+    description: "Chat with AI",
+    category: "ai",
     permissions: [],
     action: "typing",
     async execute(bot, ctx, input, tools) {
@@ -18,10 +18,19 @@ module.exports = {
         }
 
         try {
-            return ctx.reply(text);
+            const apiUrl = tools.api.createUrl("widipe", `/dalle`, {
+                text
+            });
+
+            const caption =
+                "🖼 DALL·E\n" +
+                `- Prompt: ${input}`;
+            return await ctx.replyWithPhoto(apiUrl, {
+                caption
+            });
         } catch (error) {
             console.error("Error:", error);
-            return ctx.reply(`⚠ ${await tools.msg.translate("Error", userLanguage)}: ${error.message}`);
+            return ctx.reply(`${bold("[ ! ]")} Terjadi kesalahan: ${error.message}`);
         }
     }
 };

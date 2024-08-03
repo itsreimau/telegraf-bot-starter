@@ -19,6 +19,7 @@ module.exports = {
                 cmd
             } = bot.config;
             const tags = {
+                ai: "🤖 AI"
                 profile: "👤 Profile",
                 tools: "🛠️ Tools",
                 info: "ℹ️ Info",
@@ -29,31 +30,31 @@ module.exports = {
                 return ctx.reply(`⚠ ${await tools.msg.translate("No commands found.", userLanguage)}`);
             }
 
-            let text = `👋 ${await tools.msg.translate(`Hey ${ctx.from.first_name}! This is a list of available commands`, userLanguage)}:\n`
+            let caption = `👋 ${await tools.msg.translate(`Hey ${ctx.from.first_name}! This is a list of available commands`, userLanguage)}:\n`
 
             for (const [category, categoryName] of Object.entries(tags)) {
                 const commands = cmd.filter(command => command.category === category);
 
                 if (commands.size > 0) {
-                    text +=
+                    caption +=
                         "\n" +
                         `${categoryName}\n`;
                     for (const command of commands.values()) {
                         const description = await tools.msg.translate(command.description || "No description.", userLanguage);
-                        text += `> /${command.name} - ${description}\n`;
+                        caption += `> /${command.name} - ${description}\n`;
                     }
                 }
             }
 
-            text +=
+            caption +=
                 "\n" +
-                `👨‍💻 ${await tools.msg.translate("Created by", userLanguage)} ItsReimau`;
+                `👨‍💻 ${await tools.msg.translate("Developed by", userLanguage)} ItsReimau`;
 
             const button = Markup.inlineKeyboard([
-                Markup.button.url("👨‍💻 Author", "https://t.me/itsreimau")
+                Markup.button.url("👨‍💻 Developer", "https://t.me/itsreimau")
             ]);
 
-            return ctx.reply(text, button);
+            return ctx.reply(caption, button);
         } catch (error) {
             console.error("Error:", error);
             return ctx.reply(`⚠ ${await tools.msg.translate("Error", userLanguage)}: ${error.message}`);
