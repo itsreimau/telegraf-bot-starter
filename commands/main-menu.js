@@ -19,7 +19,7 @@ module.exports = {
                 cmd
             } = bot.config;
             const tags = {
-                ai: "🤖 AI"
+                ai: "🤖 AI",
                 profile: "👤 Profile",
                 tools: "🛠️ Tools",
                 info: "ℹ️ Info",
