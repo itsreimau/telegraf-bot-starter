@@ -10,15 +10,12 @@ module.exports = {
     permissions: [],
     action: "typing",
     async execute(bot, ctx, input, tools) {
-        const [userLanguage] = await Promise.all([
-            bot.config.db.get(`user.${ctx.from.id}.language`)
-        ]);
         const {
             text
         } = input;
 
         if (!text) {
-            return ctx.reply(`⚠ ${await tools.msg.translate("Give an argument!", userLanguage)}`);
+            return ctx.reply(`📨 Send a text!`);
         }
 
         try {
@@ -29,7 +26,7 @@ module.exports = {
             return ctx.reply(res.result);
         } catch (error) {
             console.error("Error:", error);
-            return ctx.reply(`⚠ ${await tools.msg.translate("Error", userLanguage)}: ${error.message}`);
+            return ctx.reply(`❎ Error: ${error.message}`);
         }
     }
 };

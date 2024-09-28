@@ -10,28 +10,23 @@ module.exports = {
     permissions: [],
     action: "typing",
     execute: async (bot, ctx, input, tools) => {
-        const [userLanguage] = await Promise.all([
-            bot.config.db.get(`user.${ctx.from.id}.language`)
-        ]);
+        const {
+            cmd
+        } = bot.config;
+        const tags = {
+            ai: "🤖 AI",
+            profile: "👤 Profile",
+            tools: "🛠️ Tools",
+            info: "ℹ️ Info",
+            "": "❓ No Category"
+        };
+
+        if (!cmd || cmd.size === 0) {
+            return ctx.reply(`❎ No commands found.`);
+        }
 
         try {
-            const {
-                cmd
-            } = bot.config;
-            const tags = {
-                ai: "🤖 AI",
-                profile: "👤 Profile",
-                tools: "🛠️ Tools",
-                info: "ℹ️ Info",
-                "": "❓ No Category"
-            };
-
-            if (!cmd || cmd.size === 0) {
-                return ctx.reply(`⚠ ${await tools.msg.translate("No commands found.", userLanguage)}`);
-            }
-
-            let caption = `👋 ${await tools.msg.translate(`Hey ${ctx.from.first_name}! This is a list of available commands`, userLanguage)}:\n`
-
+            let caption = `👋 Hey ${ctx.from.first_name}! This is a list of available commands:\n`
             for (const [category, categoryName] of Object.entries(tags)) {
                 const commands = cmd.filter(command => command.category === category);
 
@@ -40,16 +35,14 @@ module.exports = {
                         "\n" +
                         `${categoryName}\n`;
                     for (const command of commands.values()) {
-                        const description = await tools.msg.translate(command.description || "No description.", userLanguage);
+                        const description = command.description || "No description.";
                         caption += `> /${command.name} - ${description}\n`;
                     }
                 }
             }
-
             caption +=
                 "\n" +
-                `👨‍💻 ${await tools.msg.translate("Developed by", userLanguage)} ItsReimau`;
-
+                `👨‍💻 Developed by ItsReimau`;
             const button = Markup.inlineKeyboard([
                 Markup.button.url("👨‍💻 Developer", "https://t.me/itsreimau")
             ]);
@@ -57,7 +50,7 @@ module.exports = {
             return ctx.reply(caption, button);
         } catch (error) {
             console.error("Error:", error);
-            return ctx.reply(`⚠ ${await tools.msg.translate("Error", userLanguage)}: ${error.message}`);
+            return ctx.reply(`❎ Error: ${error.message}`);
         }
     }
 };

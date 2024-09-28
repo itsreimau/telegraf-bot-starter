@@ -6,10 +6,6 @@ module.exports = {
     permissions: [],
     action: "typing",
     execute: async (bot, ctx, input, tools) => {
-        const [userLanguage] = await Promise.all([
-            bot.config.db.get(`user.${ctx.from.id}.language`)
-        ]);
-
-        return ctx.reply(await tools.msg.translate("This starter template provides a foundation for building a Telegram bot using Telegraf and Express.", userLanguage));
+        return ctx.reply("This starter template provides a foundation for building a Telegram bot using Telegraf and Express.");
     }
 };

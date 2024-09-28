@@ -21,12 +21,21 @@ This starter template provides a foundation for building a Telegram bot using Te
    npm install
    ```
 
-4. Set up environment variables:
+4. Set up configuration variables:
 
-   Create a `.env` file in the root directory of your project and add the following environment variables:
+   Create a `config.js` file in the root directory of your project and add the following configuration variables:
    ```env
-   BOT_TOKEN=your-telegram-bot-token
-   DEVELOPER_ID=your-telegram-id
+   global.config = {
+       // Bot
+       bot: {
+           token: ""
+       },
+
+       // Developer
+       developer: {
+           id: ""
+       }
+   }
    ```
 
 5. Start the bot:
