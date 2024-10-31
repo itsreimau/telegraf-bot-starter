@@ -20,7 +20,7 @@ CFonts.say(pkg.name, {
 const authorName = pkg.author.name || pkg.author;
 CFonts.say(
     `'${pkg.description}'\n` +
-    `Oleh ${authorName}`, {
+    `By ${authorName}`, {
         font: "console",
         align: "center",
         gradient: ["red", "magenta"]
