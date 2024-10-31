@@ -12,9 +12,7 @@ const SimplDB = require("simpl.db");
 const {
     Telegraf
 } = require("telegraf");
-const {
-    inspect
-} = require("util");
+const util = require("util");
 
 // Function to initialize the bot
 async function initializeBot() {
@@ -129,9 +127,7 @@ async function initializeBot() {
                 const code = ctx.match[2];
                 const result = await eval(ctx.match[1] === "==>" ? `(async () => { ${code} })()` : code);
 
-                return ctx.reply(inspect(result, {
-                    depth: 1
-                }));
+                return ctx.reply(util.inspect(result));
             } catch (error) {
                 console.error("Error:", error);
                 return ctx.reply(`❎ Error: ${error.message}`);
@@ -144,20 +140,9 @@ async function initializeBot() {
 
             try {
                 const command = ctx.match[1];
+                const output = await util.promisify(exec)(command);
 
-                const output = await new Promise((resolve, reject) => {
-                    exec(command, (error, stdout, stderr) => {
-                        if (error) {
-                            reject(new Error(`Error: ${error.message}`));
-                        } else if (stderr) {
-                            reject(new Error(stderr));
-                        } else {
-                            resolve(stdout);
-                        }
-                    });
-                });
-
-                return ctx.reply(output);
+                return ctx.reply(output.stdout || output.stderr);
             } catch (error) {
                 console.error("Error:", error);
                 return ctx.reply(`❎ Error: ${error.message}`);
