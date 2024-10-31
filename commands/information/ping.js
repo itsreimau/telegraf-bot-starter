@@ -2,7 +2,7 @@ module.exports = {
     name: "ping",
     aliases: [],
     description: "Check ping",
-    category: "info",
+    category: "information",
     permissions: [],
     action: "typing",
     execute: async (bot, ctx, input, tools) => {

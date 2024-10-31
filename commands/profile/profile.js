@@ -28,7 +28,7 @@ module.exports = {
                 `- Name: ${ctx.from.first_name} ${ctx.from.last_name || ""}\n` +
                 `- Username: ${ctx.from.username}\n` +
                 `- Premium: ${userPremium ? "Yes" : "No"}`;
-            return await ctx.replyWithPhoto(userProfilePhotos, {
+            return ctx.replyWithPhoto(userProfilePhotos, {
                 caption
             });
         } catch (error) {

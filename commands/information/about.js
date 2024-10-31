@@ -1,6 +1,6 @@
 module.exports = {
     name: "about",
-    aliases: ["info"],
+    aliases: ["information"],
     description: "About bot",
     category: "info",
     permissions: [],

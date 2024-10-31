@@ -1,11 +1,12 @@
+// Configuration
 global.config = {
-    // Bot
+    // Bot Configuration
     bot: {
-        token: ""
+        token: "", // Token for accessing the Telegram Bot API
     },
 
-    // Developer
+    // Developer Information
     developer: {
-        id: ""
+        id: "", // Developer ID for identifying who has special access
     }
 }

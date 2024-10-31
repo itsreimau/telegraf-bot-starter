@@ -1,19 +1,10 @@
+// Required modules and dependencies
 require("./config.js");
 const pkg = require("./package.json");
 const CFonts = require("cfonts");
 
 // Defines global
 global.config.pkg = pkg;
-
-// Checking
-if (global.config.bot.token === "") {
-    console.error(`[${pkg.name}] Please set 'global.config.bot' correctly in config.js!`);
-    process.exit(1);
-}
-if (global.config.developer.id === "") {
-    console.error(`[${pkg.name}] Please set 'global.config.developer' correctly in config.js!`);
-    process.exit(1);
-}
 
 // Starting
 console.log(`[${pkg.name}] Starting...`);

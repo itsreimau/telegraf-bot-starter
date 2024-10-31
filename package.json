@@ -10,6 +10,8 @@
   "license": "MIT",
   "dependencies": {
     "@discordjs/collection": "^2.1.0",
+    "axios": "1.7.7",
+    "cfonts": "^3.3.0",
     "lowline.ai": "^1.0.18",
     "simpl.db": "^2.13.0",
     "telegraf": "^4.16.3"

@@ -17,8 +17,8 @@ module.exports = {
             ai: "🤖 AI",
             profile: "👤 Profile",
             tools: "🛠️ Tools",
-            info: "ℹ️ Info",
-            "": "❓ No Category"
+            information: "ℹ️ Information",
+            misc: "❓ Miscellaneous"
         };
 
         if (!cmd || cmd.size === 0) {
