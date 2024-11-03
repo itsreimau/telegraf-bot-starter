@@ -14,9 +14,7 @@ module.exports = {
             text
         } = input;
 
-        if (!text) {
-            return ctx.reply(`📨 Send a text!`);
-        }
+        if (!text) return ctx.reply(`📨 Send a text!`);
 
         try {
             const res = await _ai.generatePlaintext({

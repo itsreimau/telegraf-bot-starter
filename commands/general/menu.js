@@ -21,12 +21,11 @@ module.exports = {
             misc: "❓ Miscellaneous"
         };
 
-        if (!cmd || cmd.size === 0) {
-            return ctx.reply(`❎ No commands found.`);
-        }
+        if (!cmd || cmd.size === 0) return ctx.reply(`❎ No commands found.`);
 
         try {
             let caption = `👋 Hey ${ctx.from.first_name}! This is a list of available commands:\n`
+
             for (const [category, categoryName] of Object.entries(tags)) {
                 const commands = cmd.filter(command => command.category === category);
 
@@ -40,9 +39,11 @@ module.exports = {
                     }
                 }
             }
+
             caption +=
                 "\n" +
                 `👨‍💻 Developed by ItsReimau`;
+
             const button = Markup.inlineKeyboard([
                 Markup.button.url("👨‍💻 Developer", "https://t.me/itsreimau")
             ]);

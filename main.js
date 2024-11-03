@@ -44,6 +44,40 @@ async function initializeBot() {
             withFileTypes: true
         });
 
+        // Function to handle command execution with permission checks
+        async function handleCommand(ctx, commandInfo, input) {
+            const {
+                permissions,
+                action,
+                execute
+            } = commandInfo;
+            await ctx.sendChatAction(action);
+
+            const userDb = await bot.config.db.get(`user.${ctx.from.id}`);
+            if (!userDb) {
+                await bot.config.db.set(`user.${ctx.from.id}`, {
+                    premium: false
+                });
+            }
+
+            // Permission checks
+            if (permissions.includes("group") && ctx.chat.type === "private") return ctx.reply(`❎ This command can only be used in group chats.`);
+
+            if (permissions.includes("private") && ctx.chat.type !== "private") return ctx.reply(`❎ This command can only be used in private chats.`);
+
+            if (permissions.includes("developer") && parseInt(ctx.from.id) !== parseInt(DEVELOPER_ID)) return ctx.reply(`❎ You do not have permission to use this command.`);
+
+            if (commandInfo.name !== "start" && !userDb) return ctx.reply(`❎ You are not registered in our database yet! Type /start to register.`);
+
+            try {
+                await execute(bot, ctx, input, tools);
+            } catch (error) {
+                console.error("Error:", error);
+                await ctx.telegram.sendMessage(DEVELOPER_ID, `Error: ${error.message}`);
+                return ctx.reply(`❎ Error: ${error.message}`);
+            }
+        }
+
         // Loop over all files and register them with the bot
         for (const file of commandFiles) {
             const fullPath = path.join(commandsPath, file.name);
@@ -60,62 +94,37 @@ async function initializeBot() {
                     execute
                 } = commandModule;
 
-                // Command handler logic
-                bot.command(name, async (ctx) => {
-                    await ctx.sendChatAction(action);
-
-                    const userDb = await bot.config.db.get(`user.${ctx.from.id}`);
-                    if (!userDb) {
-                        await bot.config.db.set(`user.${ctx.from.id}`, {
-                            premium: false
-                        });
-                    }
-
-                    const input = {
-                        text: ctx.message.text.split(" ").slice(1).join(" "),
-                        param: ctx.message.text.split(" ").slice(1)
-                    };
-
-                    if (permissions.includes("group") && ctx.chat.type === "private") {
-                        return ctx.reply(`❎ This command can only be used in group chats.`);
-                    }
-
-                    if (permissions.includes("private") && ctx.chat.type !== "private") {
-                        return ctx.reply(`❎ This command can only be used in private chats.`);
-                    }
-
-                    if (permissions.includes("developer") && parseInt(ctx.from.id) !== parseInt(DEVELOPER_ID)) {
-                        return ctx.reply(`❎ You do not have permission to use this command.`);
-                    }
-
-                    if (name !== "start" && !userDb) {
-                        return ctx.reply(`❎ You are not registered in our database yet! Type /start to register.`);
-                    }
-
-                    try {
-                        await execute(bot, ctx, input, tools);
-                    } catch (error) {
-                        console.error("Error:", error);
-                        await ctx.telegram.sendMessage(DEVELOPER_ID, `Error: ${error.message}`);
-                        return ctx.reply(`❎ Error: ${error.message}`);
-                    }
-                });
-
-                aliases.forEach((alias) => {
-                    bot.command(alias, async (ctx) => {
-                        await ctx.sendChatAction(action);
-                        await execute(bot, ctx, input, tools);
-                    });
-                });
-
-                bot.config.cmd.set(name, {
+                const commandInfo = {
                     name,
                     aliases,
                     description,
                     category,
                     permissions,
+                    action,
                     execute
+                };
+
+                // Register main command with handler
+                bot.command(name, async (ctx) => {
+                    const input = {
+                        text: ctx.message.text.split(" ").slice(1).join(" "),
+                        param: ctx.message.text.split(" ").slice(1)
+                    };
+                    await handleCommand(ctx, commandInfo, input);
                 });
+
+                // Register aliases with the same handler and permissions
+                aliases.forEach((alias) => {
+                    bot.command(alias, async (ctx) => {
+                        const input = {
+                            text: ctx.message.text.split(" ").slice(1).join(" "),
+                            param: ctx.message.text.split(" ").slice(1)
+                        };
+                        await handleCommand(ctx, commandInfo, input);
+                    });
+                });
+
+                bot.config.cmd.set(name, commandInfo);
             }
         }
 

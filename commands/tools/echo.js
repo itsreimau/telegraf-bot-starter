@@ -10,9 +10,7 @@ module.exports = {
             text
         } = input;
 
-        if (!text) {
-            return ctx.reply(`📨 Send a text!`);
-        }
+        if (!text) return ctx.reply(`📨 Send a text!`);
 
         try {
             return ctx.reply(text);
