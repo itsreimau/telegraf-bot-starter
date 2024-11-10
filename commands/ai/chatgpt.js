@@ -33,10 +33,10 @@ module.exports = {
             chatThread.push({
                 name: "Bot",
                 role: "bot",
-                content: res.result,
+                content: res.result
             });
 
-            bot.config.db.set(`user.${ctx.from.sender}.chatThread`, chatThread);
+            bot.config.db.set(`user.${ctx.from.id}.chatThread`, chatThread);
 
             return ctx.reply(res.result);
         } catch (error) {
