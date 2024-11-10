@@ -35,43 +35,59 @@ async function initializeBot() {
             db: databaseConfig
         };
 
-        // Register commands from the 'commands' directory
-        const commandsPath = path.join(__dirname, "commands");
-        const commandFiles = await fs.readdir(commandsPath, {
-            withFileTypes: true
-        });
+        // Function to recursively read command files from subdirectories
+        async function loadCommands(directoryPath) {
+            const files = await fs.readdir(directoryPath, {
+                withFileTypes: true
+            });
 
-        for (const file of commandFiles) {
-            if (file.isFile() && file.name.endsWith(".js")) {
-                const commandModule = require(path.join(commandsPath, file.name));
-                const {
-                    name,
-                    aliases = [],
-                    description = "",
-                    permissions = [],
-                    action = "typing",
-                    execute
-                } = commandModule;
+            for (const file of files) {
+                const fullPath = path.join(directoryPath, file.name);
+                if (file.isDirectory()) {
+                    // Recursive call to handle subdirectories
+                    await loadCommands(fullPath);
+                } else if (file.isFile() && file.name.endsWith(".js")) {
+                    try {
+                        console.log(`Loading command: ${fullPath}`);
+                        const commandModule = require(fullPath);
+                        const {
+                            name,
+                            aliases = [],
+                            description = "",
+                            permissions = [],
+                            action = "typing",
+                            execute
+                        } = commandModule;
 
-                if (!name || typeof execute !== "function") {
-                    console.warn(`Skipping invalid command file: ${file.name}`);
-                    continue;
+                        if (!name || typeof execute !== "function") {
+                            console.warn(`Invalid command structure in: ${fullPath}`);
+                            continue;
+                        }
+
+                        // Register command and aliases
+                        const commandInfo = {
+                            name,
+                            aliases,
+                            description,
+                            permissions,
+                            action,
+                            execute
+                        };
+                        bot.command(name, async (ctx) => handleCommand(ctx, commandInfo));
+                        aliases.forEach((alias) => bot.command(alias, async (ctx) => handleCommand(ctx, commandInfo)));
+
+                        // Add command to configuration
+                        bot.config.cmd.set(name, commandInfo);
+                    } catch (error) {
+                        console.error(`Failed to load command ${fullPath}:`, error);
+                    }
                 }
-
-                const commandInfo = {
-                    name,
-                    aliases,
-                    description,
-                    permissions,
-                    action,
-                    execute
-                };
-                bot.command(name, async (ctx) => handleCommand(ctx, commandInfo));
-                aliases.forEach(alias => bot.command(alias, async (ctx) => handleCommand(ctx, commandInfo)));
-
-                bot.config.cmd.set(name, commandInfo);
             }
         }
+
+        // Load all commands starting from the 'commands' directory
+        const commandsPath = path.join(__dirname, "commands");
+        await loadCommands(commandsPath);
 
         // Function to handle command execution
         async function handleCommand(ctx, commandInfo) {
