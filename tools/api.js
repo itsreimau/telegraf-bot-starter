@@ -15,6 +15,10 @@ const APIs = {
     lenwy: {
         baseURL: "https://api-lenwy.vercel.app"
     },
+    nexoracle: {
+        baseURL: "https://api.nexoracle.com",
+        APIKey: "free_key@maher_apis" // APIKey is provided by Maher Zubair
+    },
     nyxs: {
         baseURL: "https://api.nyxs.pw"
     },
@@ -29,10 +33,6 @@ const APIs = {
     },
     wudysoft: {
         baseURL: "https://wudysoft.us.kg"
-    },
-    nexoracle: {
-        baseURL: "https://api.nexoracle.com",
-        APIKey: "free_key@maher_apis" // APIKey is provided by Maher Zubair
     },
     zenith: {
         baseURL: "https://api-zenith.koyeb.app",

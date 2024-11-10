@@ -10,13 +10,8 @@ module.exports = {
             text
         } = input;
 
-        if (!text) return ctx.reply(`📨 Send a text!`);
+        if (!text) return ctx.reply(`📌 Send a text!`);
 
-        try {
-            return ctx.reply(text);
-        } catch (error) {
-            console.error("Error:", error);
-            return ctx.reply(`❎ Error: ${error.message}`);
-        }
+        return ctx.reply(text);
     }
 };

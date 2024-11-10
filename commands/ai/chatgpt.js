@@ -14,17 +14,34 @@ module.exports = {
             text
         } = input;
 
-        if (!text) return ctx.reply(`📨 Send a text!`);
+        if (!text) return ctx.reply(`📌 Send a text!`);
 
         try {
-            const res = await _ai.generatePlaintext({
-                prompt: text
+            let chatThread = config.db.get(`user.${ctx.from.id}.chatThread`) || [];
+
+            chatThread.push({
+                name: ` ${ctx.from.first_name} ${ctx.from.last_name || ""}`,
+                role: "user",
+                content: text,
             });
+
+            const res = await _ai.suggestChatResponse({
+                intent: text,
+                chat_thread: chatThread
+            });
+
+            chatThread.push({
+                name: "Bot",
+                role: "bot",
+                content: res.result,
+            });
+
+            config.db.set(`user.${ctx.from.sender}.chatThread`, chatThread);
 
             return ctx.reply(res.result);
         } catch (error) {
             console.error("Error:", error);
-            return ctx.reply(`❎ Error: ${error.message}`);
+            return ctx.reply(`⚠ An error occurred: ${error.message}`);
         }
     }
 };

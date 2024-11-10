@@ -1,6 +1,6 @@
 {
-  "name": "telegraf-express-bot-starter",
-  "version": "1.2.0",
+  "name": "telegraf-bot-starter",
+  "version": "1.2.5",
   "description": "Starter template for Telegram bot based on Telegraf.",
   "main": "index.js",
   "scripts": {

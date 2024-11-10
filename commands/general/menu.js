@@ -10,20 +10,20 @@ module.exports = {
     permissions: [],
     action: "typing",
     execute: async (bot, ctx, input, tools) => {
-        const {
-            cmd
-        } = bot.config;
-        const tags = {
-            ai: "🤖 AI",
-            profile: "👤 Profile",
-            tools: "🛠️ Tools",
-            information: "ℹ️ Information",
-            misc: "❓ Miscellaneous"
-        };
-
-        if (!cmd || cmd.size === 0) return ctx.reply(`❎ No commands found.`);
-
         try {
+            const {
+                cmd
+            } = bot.config;
+            const tags = {
+                ai: "🤖 AI",
+                profile: "👤 Profile",
+                tools: "🛠️ Tools",
+                information: "ℹ️ Information",
+                misc: "❓ Miscellaneous"
+            };
+
+            if (!cmd || cmd.size === 0) return ctx.reply(`❎ No commands found.`);
+
             let caption = `👋 Hey ${ctx.from.first_name}! This is a list of available commands:\n`
 
             for (const [category, categoryName] of Object.entries(tags)) {
@@ -51,7 +51,7 @@ module.exports = {
             return ctx.reply(caption, button);
         } catch (error) {
             console.error("Error:", error);
-            return ctx.reply(`❎ Error: ${error.message}`);
+            return ctx.reply(`⚠ An error occurred: ${error.message}`);
         }
     }
 };

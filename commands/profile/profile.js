@@ -33,7 +33,7 @@ module.exports = {
             });
         } catch (error) {
             console.error("Error:", error);
-            return ctx.reply(`❎ Error: ${error.message}`);
+            return ctx.reply(`⚠ An error occurred: ${error.message}`);
         }
     }
 };
