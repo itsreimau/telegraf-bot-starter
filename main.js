@@ -58,10 +58,10 @@ async function initializeBot() {
                             action = "typing",
                             execute
                         } = commandModule;
-                        console.log(`Loaded command: ${name} (Category: ${category})`);
+                        console.log(`Loaded command: ${name} (${category})`);
 
                         if (!name || typeof execute !== "function") {
-                            console.warn(`Invalid command structure in: ${name} (Category: ${category})`);
+                            console.warn(`Invalid command structure in: ${file.name}`);
                             continue;
                         }
 
