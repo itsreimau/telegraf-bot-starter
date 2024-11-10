@@ -1,6 +1,5 @@
 module.exports = {
-    name: "chatgpt",
-    aliases: ["lowline"],
+    name: "dalle",
     description: "Chat with AI",
     category: "ai",
     permissions: [],
