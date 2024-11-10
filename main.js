@@ -142,7 +142,9 @@ async function initializeBot() {
         });
 
         // Start bot
-        await bot.launch();
+        bot.launch({
+            allowedUpdates: ["message", "edited_message", "callback_query"]
+        });
         console.log("Bot is running...");
 
         // Enable graceful stop
