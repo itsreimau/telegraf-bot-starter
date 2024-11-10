@@ -100,9 +100,7 @@ async function initializeBot() {
             } = commandInfo;
             try {
                 await ctx.sendChatAction(action);
-                const userDb = await bot.config.db.get(`user.${ctx.from.id}`) || {
-                    premium: false
-                };
+                const userDb = await bot.config.db.get(`user.${ctx.from.id}`);
                 if (!userDb && commandInfo.name !== "start") {
                     return ctx.reply("❎ You are not registered in our database yet! Type /start to register.");
                 }

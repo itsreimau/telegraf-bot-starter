@@ -16,7 +16,7 @@ module.exports = {
         try {
             let userProfilePhotos;
             try {
-                const getuserProfilePhotos = await ctx.telegram.getuserProfilePhotos(ctx.from.id);
+                const getuserProfilePhotos = await ctx.telegram.getUserProfilePhotos(ctx.from.id);
                 userProfilePhotos = getuserProfilePhotos.photos[0][0].file_id;
             } catch (error) {
                 userProfilePhotos = "https://i.ibb.co/3Fh9V6p/avatar-contact.png";
