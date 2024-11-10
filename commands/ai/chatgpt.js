@@ -17,7 +17,7 @@ module.exports = {
         if (!text) return ctx.reply(`📌 Send a text!`);
 
         try {
-            let chatThread = config.db.get(`user.${ctx.from.id}.chatThread`) || [];
+            let chatThread = bot.config.db.get(`user.${ctx.from.id}.chatThread`) || [];
 
             chatThread.push({
                 name: ` ${ctx.from.first_name} ${ctx.from.last_name || ""}`,
@@ -36,7 +36,7 @@ module.exports = {
                 content: res.result,
             });
 
-            config.db.set(`user.${ctx.from.sender}.chatThread`, chatThread);
+            bot.config.db.set(`user.${ctx.from.sender}.chatThread`, chatThread);
 
             return ctx.reply(res.result);
         } catch (error) {

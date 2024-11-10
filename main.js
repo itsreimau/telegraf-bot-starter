@@ -48,19 +48,20 @@ async function initializeBot() {
                     await loadCommands(fullPath);
                 } else if (file.isFile() && file.name.endsWith(".js")) {
                     try {
-                        console.log(`Loading command: ${fullPath}`);
                         const commandModule = require(fullPath);
                         const {
                             name,
                             aliases = [],
                             description = "",
+                            category,
                             permissions = [],
                             action = "typing",
                             execute
                         } = commandModule;
+                        console.log(`Loaded command: ${name} (Category: ${category})`);
 
                         if (!name || typeof execute !== "function") {
-                            console.warn(`Invalid command structure in: ${fullPath}`);
+                            console.warn(`Invalid command structure in: ${name} (Category: ${category})`);
                             continue;
                         }
 
@@ -69,6 +70,7 @@ async function initializeBot() {
                             name,
                             aliases,
                             description,
+                            category,
                             permissions,
                             action,
                             execute
@@ -79,7 +81,7 @@ async function initializeBot() {
                         // Add command to configuration
                         bot.config.cmd.set(name, commandInfo);
                     } catch (error) {
-                        console.error(`Failed to load command ${fullPath}:`, error);
+                        console.error(`Failed to load command file ${file.name}:`, error);
                     }
                 }
             }
