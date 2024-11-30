@@ -3,40 +3,37 @@ const APIs = {
     agatz: {
         baseURL: "https://api.agatz.xyz"
     },
-    aggelos_007: {
-        baseURL: "https://api.aggelos-007.xyz"
+    btch: {
+        baseURL: "https://btch.us.kg"
     },
-    chiwa: {
-        baseURL: "https://api.chiwa.my.id"
+    cifumo: {
+        baseURL: "https://rest.cifumo.biz.id"
     },
     itzpire: {
         baseURL: "https://itzpire.com"
     },
-    lenwy: {
-        baseURL: "https://api-lenwy.vercel.app"
+    neastooid: {
+        baseURL: "https://api.neastooid.xyz"
     },
     nexoracle: {
         baseURL: "https://api.nexoracle.com",
         APIKey: "free_key@maher_apis" // APIKey is provided by Maher Zubair
     },
-    nyxs: {
-        baseURL: "https://api.nyxs.pw"
-    },
-    ryzendesu: {
-        baseURL: "https://api.ryzendesu.vip"
+    ochinpo: {
+        baseURL: "https://ochinpo-helper.hf.space"
     },
     sandipbaruwal: {
         baseURL: "https://sandipbaruwal.onrender.com"
     },
-    widipe: {
-        baseURL: "https://widipe.com"
+    siputzx: {
+        baseURL: "https://api.siputzx.my.id"
     },
-    wudysoft: {
-        baseURL: "https://wudysoft.us.kg"
+    ssateam: {
+        baseURL: "https://api.ssateam.my.id",
+        APIKey: "root" // APIKey is provided by Fainshe
     },
-    zenith: {
-        baseURL: "https://api-zenith.koyeb.app",
-        APIKey: "zenkey" // APIKey is provided by Zenith
+    vreden: {
+        baseURL: "https://api.vreden.my.id"
     }
 };
 
@@ -61,7 +58,8 @@ function createUrl(apiNameOrURL, endpoint, params = {}, apiKeyParamName) {
 
         return apiUrl.toString();
     } catch (error) {
-        console.error(`[${config.pkg.name}] Error:`, error);
+        console.error("Error:", error);
+        return null;
     }
 }
 

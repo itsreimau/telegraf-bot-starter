@@ -1,11 +1,14 @@
 module.exports = {
     apps: [{
-        name: "telegraf-bot-starter",
+        // General
+        name: "ckptw-wabot",
         script: "./index.js",
 
-        // watch: true,
-        // ignore_watch: ["database.json", "node_modules", "state"],
+        // Advanced features
+        watch: true,
+        ignore_watch: ["database.json", "node_modules", "state"],
 
+        // Control flow
         cron_restart: "*/30 * * * *"
     }]
 };

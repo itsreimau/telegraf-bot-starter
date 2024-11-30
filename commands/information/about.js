@@ -6,6 +6,6 @@ module.exports = {
     permissions: [],
     action: "typing",
     execute: async (bot, ctx, input, tools) => {
-        return ctx.reply("This starter template provides a foundation for building a Telegram bot using Telegraf and Express.");
+        return ctx.reply("This starter template provides a foundation for building a Telegram bot using Telegraf.");
     }
 };

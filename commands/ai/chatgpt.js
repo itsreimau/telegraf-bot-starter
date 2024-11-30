@@ -1,6 +1,4 @@
-const {
-    _ai
-} = require("lowline.ai");
+const axios = require("axios");
 
 module.exports = {
     name: "chatgpt",
@@ -17,28 +15,14 @@ module.exports = {
         if (!text) return ctx.reply(`📌 Send a text!`);
 
         try {
-            let chatThread = bot.config.db.get(`user.${ctx.from.id}.chatThread`) || [];
-
-            chatThread.push({
-                name: ` ${ctx.from.first_name} ${ctx.from.last_name || ""}`,
-                role: "user",
-                content: text,
+            const apiUrl = tools.api.createUrl("btch", "/openai", {
+                text
             });
+            const {
+                data
+            } = await axios.get(apiUrl);
 
-            const res = await _ai.suggestChatResponse({
-                intent: text,
-                chat_thread: chatThread
-            });
-
-            chatThread.push({
-                name: "Bot",
-                role: "bot",
-                content: res.result
-            });
-
-            bot.config.db.set(`user.${ctx.from.id}.chatThread`, chatThread);
-
-            return ctx.reply(res.result);
+            return ctx.reply(data.result);
         } catch (error) {
             console.error("Error:", error);
             return ctx.reply(`⚠ An error occurred: ${error.message}`);

@@ -9,7 +9,6 @@ module.exports = {
         const userDb = await bot.config.db.get(`user.${ctx.from.id}`);
         if (!userDb) {
             await bot.config.db.set(`user.${ctx.from.id}`, {
-                chatTread: [],
                 premium: false
             });
         }
