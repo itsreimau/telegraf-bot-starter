@@ -1,18 +1,18 @@
 // Required modules and dependencies
 const tools = require("./tools/exports.js");
 const {
-    Collection
-} = require("@discordjs/collection");
-const {
-    exec
-} = require("child_process");
-const fs = require("fs/promises");
-const path = require("path");
-const SimplDB = require("simpl.db");
-const {
     Telegraf
 } = require("telegraf");
-const util = require("util");
+const {
+    Collection
+} = require("@discordjs/collection");
+const SimplDB = require("simpl.db");
+const fs = require("node:fs/promises");
+const path = require("node:path");
+const util = require("node:util");
+const {
+    exec
+} = require("node:child_process");
 
 // Function to initialize the bot
 async function initializeBot() {

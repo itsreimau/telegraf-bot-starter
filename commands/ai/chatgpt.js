@@ -15,14 +15,12 @@ module.exports = {
         if (!text) return ctx.reply(`📌 Send a text!`);
 
         try {
-            const apiUrl = tools.api.createUrl("btch", "/openai", {
-                text
+            const apiUrl = tools.api.createUrl("fast", "/aillm/gpt-4", {
+                ask: text
             });
-            const {
-                data
-            } = await axios.get(apiUrl);
+            const result = (await axios.get(apiUrl)).data.result;
 
-            return ctx.reply(data.result);
+            return ctx.reply(result);
         } catch (error) {
             console.error("Error:", error);
             return ctx.reply(`⚠ An error occurred: ${error.message}`);

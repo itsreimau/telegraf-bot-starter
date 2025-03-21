@@ -1,6 +1,3 @@
-const fs = require("fs/promises");
-const path = require("path");
-
 module.exports = {
     name: "profile",
     aliases: ["prof", "profil"],
