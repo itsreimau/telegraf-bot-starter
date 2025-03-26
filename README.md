@@ -25,17 +25,18 @@ This starter template provides a foundation for building a Telegram bot using Te
 
    Create a `config.js` file in the root directory of your project and add the following configuration variables:
    ```env
-   global.config = {
-       // Bot
-       bot: {
-           token: ""
-       },
+   // Configuration
+global.config = {
+    // Bot Configuration
+    bot: {
+            token: "" // Token for accessing the Telegram Bot API
+        },
 
-       // Developer
-       developer: {
-           id: ""
-       }
-   }
+        // Developer Information
+        developer: {
+            id: "" // Developer ID for identifying who has special access
+        }
+    }
    ```
 
 5. Start the bot:
