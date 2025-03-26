@@ -1,62 +1,47 @@
-# Telegraf Bot Starter
+# Telegraf Bot Starter  
 
-This starter template provides a foundation for building a Telegram bot using Telegraf, designed to run in any environment that supports Node.js.
+This starter template provides a foundation for building a Telegram bot using Telegraf, designed to run in any environment that supports Node.js.  
 
-## Features
+⚠️ **This repository has been archived and is no longer maintained.**  
 
-- **[Telegraf](https://telegraf.js.org/)**: Utilizes the Telegraf library for easy interaction with the Telegram Bot API.
+## Features  
 
-## Getting Started
+- **[Telegraf](https://telegraf.js.org/)**: Utilizes the Telegraf library for easy interaction with the Telegram Bot API.  
 
-1. [Fork](https://github.com/itsreimau/telegraf-bot-starter/fork) this repository.
+## Getting Started  
 
-2. Clone the repository to your local machine:
-   ```bash
-   git clone https://github.com/your-username/telegraf-bot-starter.git
-   cd telegraf-bot-starter
-   ```
+1. **Fork** this repository (if necessary).  
 
-3. Install dependencies:
-   ```bash
-   npm install
-   ```
+2. **Clone** the repository to your local machine:  
+   ```bash  
+   git clone https://github.com/your-username/telegraf-bot-starter.git  
+   cd telegraf-bot-starter  
+   ```  
 
-4. Set up configuration variables:
+3. **Install dependencies**:  
+   ```bash  
+   npm install  
+   ```  
 
-   Create a `config.js` file in the root directory of your project and add the following configuration variables:
-   ```env
-   // Configuration
-global.config = {
-    // Bot Configuration
-    bot: {
-            token: "" // Token for accessing the Telegram Bot API
-        },
+4. **Set up configuration variables**:  
+   Rename the `config.example.js` file to `config.js` and update the configurations accordingly.  
 
-        // Developer Information
-        developer: {
-            id: "" // Developer ID for identifying who has special access
-        }
-    }
-   ```
+5. **Start the bot**:  
+   You can run the bot locally using PM2 for process management. First, install PM2 globally:  
+   ```bash  
+   npm install pm2 -g  
+   ```  
+   Then, check the `ecosystem.config.js` file (optional) if you need to make any modifications. Start the bot using PM2 with:  
+   ```bash  
+   pm2 start  
+   ```  
 
-5. Start the bot:
+6. **Your Telegram bot should now be running and ready to use!**  
 
-   You can run the bot locally using PM2 for process management. First, install PM2 globally:
-   ```bash
-   npm install pm2 -g
-   ```
+## Contributing  
 
-   Then, check the `ecosystem.config.js` file (optional) if you need to make any modifications. Start the bot using PM2 with:
-   ```bash
-   pm2 start
-   ```
+Since this repository has been archived, contributions such as issues and pull requests are no longer accepted.  
 
-6. Your Telegram bot should now be running and ready to use!
+## License  
 
-## Contributing
-
-Feel free to contribute by opening issues or pull requests. Your feedback and contributions are highly appreciated.
-
-## License
-
-This project is licensed under the [MIT License](LICENSE).
+This project is licensed under the [MIT License](LICENSE).  
